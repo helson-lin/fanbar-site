@@ -10,6 +10,7 @@ import { fileURLToPath } from 'node:url';
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SITE = 'https://getfanbar.com';
 const OUT = path.join(ROOT, 'site');
+const TMP = path.join(ROOT, '.site-refresh');
 const UA = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/130 Safari/537.36';
 const seen = new Set();
 const queue = [];
@@ -50,7 +51,7 @@ async function fetchText(url) {
 async function work(url) {
   const result = await fetchText(url);
   if (!result) return;
-  const file = path.join(OUT, savePath(url, result.type));
+  const file = path.join(TMP, savePath(url, result.type));
   fs.mkdirSync(path.dirname(file), { recursive: true });
   fs.writeFileSync(file, result.body);
   const text = result.body.toString('utf8');
@@ -69,7 +70,7 @@ async function run() {
   if (sitemap) {
     for (const match of sitemap.body.toString('utf8').matchAll(/<loc>(.*?)<\/loc>/g)) add(match[1]);
   }
-  fs.rmSync(OUT, { recursive: true, force: true });
+  fs.rmSync(TMP, { recursive: true, force: true });
   while (queue.length || pending) {
     const batch = queue.splice(0, 10);
     if (!batch.length) {
@@ -79,6 +80,9 @@ async function run() {
     pending += batch.length;
     await Promise.all(batch.map((url) => work(url).finally(() => { pending -= 1; })));
   }
+  fs.rmSync(OUT, { recursive: true, force: true });
+  fs.renameSync(TMP, OUT);
+
   const versions = fs.readdirSync(path.join(OUT, 'releases'))
     .filter((name) => /^\d+\.\d+\.\d+$/.test(name) && fs.existsSync(path.join(OUT, 'releases', name, 'index.html')))
     .sort((a, b) => {
