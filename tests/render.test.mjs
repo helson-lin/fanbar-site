@@ -46,3 +46,30 @@ test('index puts the newest version first and marks it latest', () => {
 test('description carries the first highlights', () => {
   assert.match(releaseDescription(release, 'en'), /Fans no longer stop/);
 });
+
+test('syncs shared download buttons without touching release pages', async () => {
+  const fs = await import('node:fs');
+  const os = await import('node:os');
+  const path = await import('node:path');
+  const { syncSiteLatest } = await import('../scripts/lib/render.mjs');
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'fanbar-sync-'));
+  fs.mkdirSync(path.join(dir, 'releases/0.1.0'), { recursive: true });
+  fs.writeFileSync(path.join(dir, 'releases/0.1.0/index.html'), 'historical v0.1.0 download');
+  fs.writeFileSync(path.join(dir, 'index.html'), '<a href="https://github.com/helson-lin/FanBar/releases/download/v0.1.0/FanBar-0.1.0.dmg" data-track-version="0.1.0">Latest: FanBar 0.1.0</a><span>15.0 MB</span><script>{"softwareVersion":"0.1.0","dateModified":"2026-01-01T00:00:00Z"}</script>');
+  const oldRelease = {
+    version: '0.1.0', publishedAt: '2026-01-01T00:00:00Z',
+    downloads: { universal: { name: 'FanBar-0.1.0.dmg', size: 15_000_000 } },
+  };
+  const newRelease = {
+    version: '0.2.0', publishedAt: '2026-02-01T00:00:00Z',
+    downloads: { universal: { name: 'FanBar-0.2.0.dmg', size: 16_000_000 } },
+  };
+  syncSiteLatest(dir, [newRelease, oldRelease], newRelease);
+  const home = fs.readFileSync(path.join(dir, 'index.html'), 'utf8');
+  assert.match(home, /v0\.2\.0/);
+  assert.match(home, /FanBar 0\.2\.0/);
+  assert.match(home, /16\.0 MB/);
+  assert.match(home, /softwareVersion":"0\.2\.0"/);
+  assert.equal(fs.readFileSync(path.join(dir, 'releases/0.1.0/index.html'), 'utf8'), 'historical v0.1.0 download');
+  fs.rmSync(dir, { recursive: true, force: true });
+});
