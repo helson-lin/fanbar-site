@@ -7,7 +7,8 @@
 1. 英文/中文 release notes 页面（`/releases/{v}`、`/zh/releases/{v}`）
 2. 机器可读版本（`/releases/{v}.md`、`/zh/releases/{v}.md`）
 3. 发布索引、RSS、sitemap
-4. `llms.txt`、`llms-full.txt`、`api/product.json`、`api/health.json`
+4. 全站共享下载按钮、版本/日期文案与 SoftwareApplication JSON-LD
+5. `llms.txt`、`llms-full.txt`、`api/product.json`、`api/health.json`
 
 ## 数据源
 

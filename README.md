@@ -13,6 +13,8 @@ For the release being built (and any newer release note documents present in the
 - Updated `/releases`, `/zh/releases`, `/releases.xml`, `/sitemap.xml`
 - Updated `/llms.txt`, `/llms-full.txt` (latest five releases)
 - Updated `/api/product.json` and `/api/health.json` (latest version, DMG URLs, exact sizes)
+- Updated download buttons, sizes, visible version/date labels, and `SoftwareApplication`
+  JSON-LD on every shared page (home pages, safety, compatibility, comparison, blog)
 
 The rest of the site is preserved from the `site/` snapshot. The Cloudflare Worker in
 `worker.js` adds the site's existing headers, markdown negotiation, and redirects.
