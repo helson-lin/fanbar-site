@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 import fs from 'node:fs';
+
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { parseReleaseMarkdown, firstHighlights } from './lib/markdown.mjs';
 import {
   compareVersions, sortReleases, renderReleasePage, updateIndex, releaseMarkdown,
-  upsertRss, upsertLlmsLatest, updateLlmsFull, updateSitemap, updateProductJson,
+  upsertRss, upsertLlmsLatest, updateLlmsFull, updateSitemap, updateProductJson, syncSiteLatest,
 } from './lib/render.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -169,6 +170,8 @@ async function main() {
   const llmsFullFile = path.join(OUT, 'llms-full.txt');
   fs.writeFileSync(llmsFullFile, updateLlmsFull(fs.readFileSync(llmsFullFile, 'utf8'), currentCatalog, rendered));
 
+  const synced = syncSiteLatest(OUT, allCatalog, latest);
+
   const sitemapFile = path.join(OUT, 'sitemap.xml');
   fs.writeFileSync(sitemapFile, updateSitemap(fs.readFileSync(sitemapFile, 'utf8'), rendered, latest.publishedAt.slice(0, 10)));
 
@@ -181,7 +184,7 @@ async function main() {
   fs.writeFileSync(healthFile, `${JSON.stringify(health, null, 2)}\n`);
 
   writeCatalog(allCatalog);
-  console.log(`built ${rendered.length} release page(s); latest ${latest.version}; ${currentCatalog.length} in catalog`);
+  console.log(`built ${rendered.length} release page(s); latest ${latest.version}; ${currentCatalog.length} in catalog; ${synced} shared page(s) synced`);
 }
 
 main().catch((error) => {

@@ -52,6 +52,9 @@ for (const lang of ['en', 'zh']) {
   check(md.includes(`https://getfanbar.com${lang === 'zh' ? '/zh' : ''}/releases/${version}`), `${base}/${version}.md: wrong canonical`);
 }
 
+check(read('index.html').includes(`releases/download/v${version}/`), 'homepage download button is stale');
+check(read('index.html').includes(`softwareVersion\":\"${version}\"`), 'homepage softwareVersion is stale');
+check(read('zh/index.html').includes(`releases/download/v${version}/`), 'Chinese homepage download button is stale');
 check(read('releases/index.html').includes(`/releases/${version}`), 'release index does not link to the release');
 check(read('zh/releases/index.html').includes(`/zh/releases/${version}`), 'zh release index does not link to the release');
 check(read('sitemap.xml').includes(`https://getfanbar.com/releases/${version}`), 'sitemap is missing the release');

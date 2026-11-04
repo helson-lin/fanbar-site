@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import { escapeHtml, inlineHtml, inlineMarkdown, sectionId, toHtmlSections, toMarkdownSections } from './markdown.mjs';
 
 export const SITE = 'https://getfanbar.com';
@@ -337,4 +338,58 @@ export function updateProductJson(json, latest) {
     };
   }
   return `${JSON.stringify(data, null, 2)}\n`;
+}
+
+export function sizeLabel(size) {
+  return Number.isFinite(size) ? `${(size / 1_000_000).toFixed(1)} MB` : '';
+}
+
+/**
+ * Keep the site-wide download buttons and SoftwareApplication JSON-LD on the latest
+ * release. Historical release pages are excluded; their downloads stay pinned.
+ */
+export function syncSiteLatest(distDir, catalog, latest) {
+  const home = fs.readFileSync(`${distDir}/index.html`, 'utf8');
+  const oldVersion = home.match(/releases\/download\/v([^/]+)\//)?.[1];
+  if (!oldVersion || oldVersion === latest.version) return 0;
+  const previous = catalog.find((release) => release.version === oldVersion);
+  let changed = 0;
+
+  const walk = (dir) => {
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+      const file = `${dir}/${entry.name}`;
+      if (entry.isDirectory()) {
+        if (entry.name === 'releases') continue;
+        walk(file);
+      } else if (entry.name.endsWith('.html')) {
+        let html = fs.readFileSync(file, 'utf8');
+        const before = html;
+        html = html.replaceAll(oldVersion, latest.version);
+        html = html.replaceAll(`/releases/${oldVersion}`, `/releases/${latest.version}`);
+        if (previous?.publishedAt) {
+          html = html.replaceAll(previous.publishedAt, latest.publishedAt);
+          const oldDate = new Date(previous.publishedAt);
+          const newDate = new Date(latest.publishedAt);
+          const pairs = [
+            [formatDateEn(previous.publishedAt), formatDateEn(latest.publishedAt)],
+            [formatDateZh(previous.publishedAt), formatDateZh(latest.publishedAt)],
+            [`${oldDate.getUTCDate()} novembre ${oldDate.getUTCFullYear()}`, `${newDate.getUTCDate()} novembre ${newDate.getUTCFullYear()}`],
+            [`${oldDate.getUTCDate()} ноября ${oldDate.getUTCFullYear()}`, `${newDate.getUTCDate()} ноября ${newDate.getUTCFullYear()}`],
+          ];
+          for (const [from, to] of pairs) if (from !== to) html = html.replaceAll(from, to);
+        }
+        for (const arch of ['arm64', 'x86_64', 'universal']) {
+          const oldSize = sizeLabel(previous?.downloads?.[arch]?.size);
+          const newSize = sizeLabel(latest.downloads?.[arch]?.size);
+          if (oldSize && newSize && oldSize !== newSize) html = html.replaceAll(oldSize, newSize);
+        }
+        if (html !== before) {
+          fs.writeFileSync(file, html);
+          changed += 1;
+        }
+      }
+    }
+  };
+  walk(distDir);
+  return changed;
 }
