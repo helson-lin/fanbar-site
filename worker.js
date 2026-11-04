@@ -689,6 +689,7 @@ var worker_default = {
       }
     }
     if (vercel_default.rewrites.some((rule) => rule.source === pathname)) varyOn(response, "Accept");
+    if (url.hostname.endsWith(".workers.dev")) response.headers.set("X-Robots-Tag", "noindex, nofollow");
     return response;
   }
 };

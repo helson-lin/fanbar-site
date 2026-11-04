@@ -63,7 +63,8 @@ same-origin image/font, which catches missing `srcset` variants.
 ## Dev and production
 
 - Dev worker: `fanbar-site-dev` (`wrangler.dev.jsonc`), deployed by the release trigger,
-  schedule, and backfill workflows.
+  schedule, and backfill workflows. It returns `X-Robots-Tag: noindex, nofollow` so the
+  preview cannot be indexed as duplicate content.
 - Production worker: `fanbar-site` (`wrangler.jsonc`), deployed only by the manual
   `promote-production.yml` workflow after `confirm=production`.
 
