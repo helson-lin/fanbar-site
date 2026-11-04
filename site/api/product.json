@@ -1,0 +1,96 @@
+{
+  "name": "FanBar",
+  "summary": "A free, open-source native macOS menu-bar app for monitoring temperatures and managing fan cooling.",
+  "homepage": "https://getfanbar.com",
+  "repository": "https://github.com/helson-lin/FanBar",
+  "releases": "https://github.com/helson-lin/FanBar/releases/latest",
+  "license": "GPL-3.0",
+  "pricing": {
+    "amount": 0,
+    "currency": "USD",
+    "accountRequired": false,
+    "paidTier": false
+  },
+  "compatibility": {
+    "operatingSystem": "macOS",
+    "minimumVersion": "11 Big Sur",
+    "architectures": [
+      "Apple Silicon",
+      "Intel"
+    ],
+    "requirement": "The Mac must expose readable fan data through AppleSMC.",
+    "evidence": "https://getfanbar.com/compatibility"
+  },
+  "install": [
+    {
+      "method": "DMG",
+      "url": "https://github.com/helson-lin/FanBar/releases/latest",
+      "note": "Notarized builds are published on GitHub Releases."
+    },
+    {
+      "method": "Homebrew",
+      "commands": [
+        "brew tap helson-lin/fanbar https://github.com/helson-lin/FanBar.git",
+        "brew install --cask helson-lin/fanbar/fanbar"
+      ]
+    }
+  ],
+  "latestRelease": {
+    "version": "0.8.0",
+    "publishedAt": "2026-11-02T09:02:03Z",
+    "notes": "https://getfanbar.com/releases/0.8.0",
+    "url": "https://github.com/helson-lin/FanBar/releases/tag/v0.8.0"
+  },
+  "downloads": {
+    "arm64": {
+      "name": "FanBar-v0.8.0-arm64.dmg",
+      "url": "https://github.com/helson-lin/FanBar/releases/download/v0.8.0/FanBar-v0.8.0-arm64.dmg",
+      "size": 15747136
+    },
+    "x86_64": {
+      "name": "FanBar-v0.8.0-x86_64.dmg",
+      "url": "https://github.com/helson-lin/FanBar/releases/download/v0.8.0/FanBar-v0.8.0-x86_64.dmg",
+      "size": 15826829
+    },
+    "universal": {
+      "name": "FanBar-0.8.0.dmg",
+      "url": "https://github.com/helson-lin/FanBar/releases/download/v0.8.0/FanBar-0.8.0.dmg",
+      "size": 18943070
+    }
+  },
+  "features": [
+    "Menu-bar CPU temperature and fan RPM, with six icon styles that spin with the fans",
+    "Per-fan RPM on a 0-to-max meter, and a CPU, GPU, memory, and disk load grid",
+    "CPU and GPU temperatures, plus SSD and battery where available, with a rolling ten-minute chart",
+    "Automatic cooling, fixed target RPM, and editable temperature-to-RPM curves",
+    "Silent, Balanced, Performance, and Extreme presets that can restore Automatic after 15 minutes, 30 minutes, or 1 hour",
+    "Curve temperature source selectable from CPU, GPU, or SSD",
+    "Optional high-temperature notifications at 60-105°C (90°C by default) with a selectable alert sound",
+    "CSV logging of temperatures, fan speeds, and control mode every 2-60 seconds",
+    "fanbar command-line tool for status, presets, fixed RPM, and Automatic, with JSON output, plus Raycast Script Commands (0.7.0 and later)",
+    "Desktop widget on macOS 14 and later, with system-scheduled refreshes"
+  ],
+  "safety": {
+    "manualControlOptional": true,
+    "authorization": "Manual fan control requires explicit approval of FanBar's signed privileged helper.",
+    "limits": "Fan targets are clamped to the hardware-reported fan range.",
+    "fallback": "FanBar attempts to restore macOS automatic fan control when manual control ends, the app quits, the connection is lost, or the helper fails."
+  },
+  "languages": [
+    "English",
+    "Simplified Chinese",
+    "Traditional Chinese",
+    "Japanese",
+    "Russian",
+    "French"
+  ],
+  "localizedPages": {
+    "en": "https://getfanbar.com",
+    "zh-Hans": "https://getfanbar.com/zh",
+    "zh-Hant": "https://getfanbar.com/zh-tw",
+    "ja": "https://getfanbar.com/ja",
+    "ru": "https://getfanbar.com/ru",
+    "fr": "https://getfanbar.com/fr"
+  },
+  "updated": "2026-10-24"
+}

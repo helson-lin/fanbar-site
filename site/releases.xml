@@ -1,0 +1,506 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>FanBar release notes</title>
+    <link>https://getfanbar.com/releases</link>
+    <atom:link href="https://getfanbar.com/releases.xml" rel="self" type="application/rss+xml" />
+    <description>New versions of FanBar, the free, open-source Mac fan control app.</description>
+    <language>en</language>
+    <lastBuildDate>Mon, 02 Nov 2026 09:02:03 GMT</lastBuildDate>
+    <item>
+      <title>FanBar 0.8.0</title>
+      <link>https://getfanbar.com/releases/0.8.0</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.8.0</guid>
+      <pubDate>Mon, 02 Nov 2026 09:02:03 GMT</pubDate>
+      <description>Choose the panel's monitoring modules; See which apps use the most CPU; SSD temperature on the startup disk; Fan curves can follow the battery temperature</description>
+      <content:encoded><![CDATA[<h2 id="new-features">New Features</h2>
+<ul>
+<li><strong>Choose the panel’s monitoring modules</strong> — in Settings → Appearance → Menu Bar Panel, pick which modules the middle of the panel shows (CPU, Memory, GPU, Startup disk) and in what order. Drag a module in the preview or the list to move it, add or remove modules with + / −, or move them from the context menu or with ⌥⌘↑ / ⌥⌘↓. With an odd number of modules the last one spans its row; with none, the panel drops that area and gets shorter. The default is still the original four, so the panel looks the same after updating (<a href="https://github.com/helson-lin/FanBar/issues/134">#134</a>)</li>
+<li><strong>See which apps use the most CPU</strong> — click the CPU cell in the panel to list the five apps using the most CPU beneath it, with each app’s helper processes counted together (a browser’s web content processes, for example). Click a row to open Activity Monitor, or Control-click to show the app in Finder. Processes are only measured while the list is open; collapsing it or closing the panel stops it (<a href="https://github.com/helson-lin/FanBar/issues/135">#135</a>)</li>
+<li><strong>SSD temperature on the startup disk</strong> — the internal startup disk’s row in the disk details now shows the SSD temperature, and only changes color as it nears its limits (<a href="https://github.com/helson-lin/FanBar/issues/134">#134</a>)</li>
+<li><strong>Fan curves can follow the battery temperature</strong> — Cooling → Temperature source now offers Battery on Macs that have one (<a href="https://github.com/helson-lin/FanBar/issues/134">#134</a>)</li>
+</ul>
+<h2 id="improvements">Improvements</h2>
+<ul>
+<li><strong>Elevated resource levels are shown by color alone</strong> — when CPU, GPU or memory load is elevated or disk space runs low, the panel turns that resource’s bars orange without adding “High” or “Space low”, so a state that needs no action doesn’t read like an alarm. “Very high” and “Almost full” are still spelled out, and VoiceOver announces both levels</li>
+</ul>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>App percentages use Activity Monitor’s scale, where one full core is 100%, so a busy app can exceed 100%. System processes such as kernel_task and WindowServer need administrator access to read, so the list covers the current user’s processes only.</li>
+<li>A fan curve follows only its selected temperature source. With Battery or SSD selected, the fans don’t speed up because the CPU gets hot.</li>
+</ul>
+<h2 id="support">Support</h2>
+<ul>
+<li>Thanks for using FanBar. I build it in my spare time and pay for things like the signing certificate myself. If you find it useful, you can <a href="https://checkout.dodopayments.com/buy/pdt_0NqThcy5f4slzzZQspCty?quantity=1" rel="nofollow">buy me a coffee</a>. Your support keeps the updates coming.</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.7.3</title>
+      <link>https://getfanbar.com/releases/0.7.3</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.7.3</guid>
+      <pubDate>Sat, 31 Oct 2026 12:43:55 GMT</pubDate>
+      <description>Recovers on its own when the SMC refuses fan writes for a while; A quieter support prompt</description>
+      <content:encoded><![CDATA[<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Recovers on its own when the SMC refuses fan writes for a while</strong> — after sleep and wake, the SMC sometimes refuses to switch fan modes for a few minutes. In 0.7.2, after five failures in a row FanBar handed the fans to macOS, said a restart was needed, and stopped trying, so you had to switch back by hand. The fans still go back to macOS first, but FanBar now retries your mode in the background after 30 seconds, 1 minute, 2 minutes and then every 5 minutes, for up to an hour, and turns it back on once a write gets through. Failed retries show no error, and picking any mode yourself cancels them. A restart is suggested only if the SMC is still refusing after an hour (<a href="https://github.com/helson-lin/FanBar/issues/131">#131</a>, <a href="https://github.com/helson-lin/FanBar/issues/114">#114</a>)</li>
+</ul>
+<h2 id="improvements">Improvements</h2>
+<ul>
+<li><strong>A quieter support prompt</strong> — the panel’s Support button is no longer a bold filled button, so it no longer outranks actions that fix something, such as authorizing the control service. The links at the bottom of Settings → General now share one line (<a href="https://github.com/helson-lin/FanBar/issues/123">#123</a>)</li>
+</ul>
+<h2 id="support">Support</h2>
+<ul>
+<li>Thanks for using FanBar. I build it in my spare time and pay for things like the signing certificate myself. If you find it useful, you can <a href="https://checkout.dodopayments.com/buy/pdt_0NqThcy5f4slzzZQspCty?quantity=1" rel="nofollow">buy me a coffee</a>. Your support keeps the updates coming.</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.7.2</title>
+      <link>https://getfanbar.com/releases/0.7.2</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.7.2</guid>
+      <pubDate>Tue, 27 Oct 2026 07:01:12 GMT</pubDate>
+      <description>Whole-system power beside the Temperature heading; Much lower memory use while the menu bar icon spins</description>
+      <content:encoded><![CDATA[<h2 id="new-features">New Features</h2>
+<ul>
+<li><strong>Whole-system power beside the Temperature heading</strong> — the panel’s Temperature heading now shows how much power the Mac draws (for example <em>Power 38 W</em>), refreshed with the temperatures every 2 s. The reading comes from SMC <code>PSTR</code>; Macs without that key (some desktops and Intel models) show nothing. Implausible or stale readings are hidden rather than guessed (<a href="https://github.com/helson-lin/FanBar/issues/120">#120</a>, <a href="https://github.com/helson-lin/FanBar/issues/76">#76</a>)</li>
+</ul>
+<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Much lower memory use while the menu bar icon spins</strong> — in 0.7.1, the filter that hides the still icon under the spinning one made Core Image load about 180 MB of kernel data into memory. It now uses a filter that needs no Core Image context and looks the same. On a Mac mini M4, FanBar’s memory (the <em>Memory</em> column in Activity Monitor) drops from about 270 MB to about 90 MB (<a href="https://github.com/helson-lin/FanBar/issues/121">#121</a>, <a href="https://github.com/helson-lin/FanBar/issues/63">#63</a>)</li>
+</ul>
+<h2 id="support">Support</h2>
+<ul>
+<li>Thanks for using FanBar. I build it in my spare time and pay for things like the signing certificate myself. If you find it useful, you can <a href="https://checkout.dodopayments.com/buy/pdt_0NqThcy5f4slzzZQspCty?quantity=1" rel="nofollow">buy me a coffee</a>. Your support keeps the updates coming.</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.7.1</title>
+      <link>https://getfanbar.com/releases/0.7.1</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.7.1</guid>
+      <pubDate>Sat, 24 Oct 2026 09:49:34 GMT</pubDate>
+      <description>The panel explains when and why FanBar hands the fans back to macOS; Failed switches say where things stand and what to do; Compatibility reports say why a control check failed; Fans go back to macOS before sleep, and FanBar stops when the SMC keeps refusing writes</description>
+      <content:encoded><![CDATA[<h2 id="new-features">New Features</h2>
+<ul>
+<li><strong>The panel explains when and why FanBar hands the fans back to macOS</strong> — when a timer ends, or no usable temperature arrives for 30 s, the panel says so under the mode strip and offers <em>Turn on again</em>. A timed session warns one minute before it ends, with <em>Extend</em>. With the panel closed these become notifications (<em>Keep</em>, <em>Keep on</em>, <em>Turn on again</em>); turn them off in Settings → Notifications → <em>Remind before handing back to macOS</em> (<a href="https://github.com/helson-lin/FanBar/issues/113">#113</a>)</li>
+<li><strong>Failed switches say where things stand and what to do</strong> — a failure now reads as what happened, who is driving the fans (red only when a manual speed is left behind), one recovery action, and the raw error behind an info button that copies it. On a Mac whose SMC has no fan mode key, the mode strip is disabled with the reason (<a href="https://github.com/helson-lin/FanBar/issues/113">#113</a>)</li>
+<li><strong>Compatibility reports say why a control check failed</strong> — a failed check now carries the failure type (unlock timeout, SMC write rejected, readback not confirmed, and so on), never error text. You can optionally attach diagnostic logs when uploading; this is off by default and visible only to administrators (<a href="https://github.com/helson-lin/FanBar/issues/112">#112</a>)</li>
+</ul>
+<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Fans go back to macOS before sleep, and FanBar stops when the SMC keeps refusing writes</strong> — on some M3 Pro Macs, lid-closed sleep followed by dark wakes left the SMC refusing every fan write until restart (<a href="https://github.com/helson-lin/FanBar/issues/114">#114</a>). The control service now hands the fans back to macOS before the Mac sleeps, does not take them again while asleep, and your mode is restored on wake. If the SMC refuses five writes in a row, FanBar stops retrying, hands back to macOS and tells you a restart is needed, instead of retrying every 11 s forever. A failed curve write no longer leaves the curve stuck at 0–5% output. If you have seen this problem, please report how this version behaves in <a href="https://github.com/helson-lin/FanBar/issues/114">#114</a></li>
+<li><strong>Every view follows an interface language change</strong> — fixed child views, native pickers, window titles and retained operation results staying in the previous language (<a href="https://github.com/helson-lin/FanBar/issues/111">#111</a>)</li>
+<li><strong>The spinning menu bar icon uses far less CPU</strong> — on Apple silicon the icon now turns with Core Animation. On a Mac mini M4 with two displays at 3,000 RPM, FanBar’s CPU use drops from about 10% to about 1.8%. Intel Macs cap the animation at 4 frames a second (<a href="https://github.com/helson-lin/FanBar/issues/113">#113</a>)</li>
+<li><strong>Diagnostic exports no longer report the control service as unavailable</strong> — the service status survives a burst of failed writes (<a href="https://github.com/helson-lin/FanBar/issues/117">#117</a>)</li>
+</ul>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>A held manual mode (including <code>fanbar --hold</code>) no longer drives the fans while the Mac sleeps; macOS takes over and your mode is restored on wake</li>
+<li>After updating, FanBar re-registers its fan-control service automatically. If macOS asks, allow FanBar again in System Settings → General → Login Items &amp; Extensions</li>
+</ul>
+<h2 id="thanks">Thanks</h2>
+<ul>
+<li>Thanks to <a href="https://github.com/Estelle00">@Estelle00</a> for the detailed report in <a href="https://github.com/helson-lin/FanBar/issues/114">#114</a> and for <a href="https://github.com/helson-lin/FanBar/issues/115">#115</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.7.0</title>
+      <link>https://getfanbar.com/releases/0.7.0</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.7.0</guid>
+      <pubDate>Wed, 21 Oct 2026 07:21:58 GMT</pubDate>
+      <description>`fanbar` command-line tool; Install the command-line tool from Settings; Raycast Script Commands; Command Line &amp; Automation follows language changes</description>
+      <content:encoded><![CDATA[<h2 id="new-features">New Features</h2>
+<ul>
+<li><strong><code>fanbar</code> command-line tool</strong> — read the status, switch presets, set a fixed speed or hand the fans back to macOS from Terminal or a script: <code>fanbar status</code>, <code>fanbar preset set performance</code>, <code>fanbar mode fixed 3000</code>, <code>fanbar mode auto</code>. <code>--hold</code> keeps the new mode until you change it; without it the Settings restore timer applies. <code>--json</code> prints machine-readable results. If FanBar isn’t running, the command opens it in the background. Commands go through FanBar and only the current user can use them (<a href="https://github.com/helson-lin/FanBar/issues/107">#107</a>)</li>
+<li><strong>Install the command-line tool from Settings</strong> — Settings → General → Command Line &amp; Automation → Command-line tool → Install… puts <code>fanbar</code> in <code>/usr/local/bin</code>, asking for an administrator password only when needed. The row tells you if your shell would find another <code>fanbar</code> first, or if <code>/usr/local/bin</code> isn’t on your PATH (<a href="https://github.com/helson-lin/FanBar/issues/107">#107</a>, <a href="https://github.com/helson-lin/FanBar/issues/108">#108</a>)</li>
+<li><strong>Raycast Script Commands</strong> — switch presets, set a fixed speed, hand back to macOS, and see CPU, GPU and SSD temperatures right in Raycast’s root search. In Settings → General → Command Line &amp; Automation → Raycast, click Set Up in Raycast…, then add the script folder once in Raycast. The scripts update with FanBar, and scripts you edited are left as they are (<a href="https://github.com/helson-lin/FanBar/issues/107">#107</a>)</li>
+</ul>
+<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Command Line &amp; Automation follows language changes</strong> — fixed section headings, descriptions and CLI / Raycast buttons retaining the previous language. This replacement release uses build 32 so users of the earlier 0.7.0 can update automatically.</li>
+<li><strong>Panel header and core labels no longer truncate</strong> — the header reads “Fans normal / macOS in control / CPU 65°” and breaks before its last part when a language doesn’t fit; the CPU cell’s performance / efficiency core labels use the full cell width instead of showing “Performanc…”, and never shrink below 11pt (<a href="https://github.com/helson-lin/FanBar/issues/105">#105</a>)</li>
+<li><strong>Alert titles stay whole in manual mode</strong> — when the restore countdown doesn’t fit beside an alert, it moves to the next line instead of truncating titles such as “CPU average is running warm” (<a href="https://github.com/helson-lin/FanBar/issues/106">#106</a>)</li>
+</ul>
+<h2 id="notes">Notes</h2>
+<ul>
+<li><code>fanbar</code> works through the running FanBar (commands open it if needed), and switching modes needs the approved fan-control service. Full usage: <a href="https://github.com/helson-lin/FanBar/blob/main/docs/cli.md">docs/cli.md</a></li>
+<li>After updating, FanBar re-registers its fan-control service automatically. If macOS asks, allow FanBar again in System Settings → General → Login Items &amp; Extensions</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.6.3</title>
+      <link>https://getfanbar.com/releases/0.6.3</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.6.3</guid>
+      <pubDate>Mon, 19 Oct 2026 14:41:53 GMT</pubDate>
+      <description>Redesigned menu panel; CSV log of temperatures and fan speeds; High-temperature alert sound; Menu bar icon spins with the fans</description>
+      <content:encoded><![CDATA[<h2 id="new-features">New Features</h2>
+<ul>
+<li><strong>Redesigned menu panel</strong> — the header states the fans’ condition and who controls them; each fan leads with its speed and names the speed band (stopped / low / medium / high) on a 0-to-max meter that marks the minimum. In the resource grid, color only means level (green, orange, red, with words), disk is judged by free space, and the temperature chart fits its range to the data. An overheat banner offers a one-click switch to maximum cooling. Onboarding and Settings follow the new design (<a href="https://github.com/helson-lin/FanBar/issues/93">#93</a>, <a href="https://github.com/helson-lin/FanBar/issues/98">#98</a>)</li>
+<li><strong>CSV log of temperatures and fan speeds</strong> — a new Log tab in Settings appends CPU, GPU, SSD and battery temperatures, fan speeds and the control mode to a CSV file in <code>~/Library/Application Support/FanBar/Logs</code> at a chosen interval (default 10 s). A new file can start on launch, at midnight, or never</li>
+<li><strong>High-temperature alert sound</strong> — choose a system sound, the notification default, or none for high-temperature alerts, and preview it. A chosen sound plays even when notification sounds are off or a Focus is on, and a temperature hovering at the threshold sounds at most once every 2 minutes (<a href="https://github.com/helson-lin/FanBar/issues/99">#99</a>)</li>
+<li><strong>Menu bar icon spins with the fans</strong> — while the fans run, the menu bar icon keeps turning at a speed that follows them, and coasts to a stop when they halt. It can be turned off in Settings → Appearance</li>
+<li><strong>French</strong> — FanBar is now available in French (<a href="https://github.com/helson-lin/FanBar/issues/96">#96</a>)</li>
+</ul>
+<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>More accurate CPU / GPU temperatures</strong> — Intel Macs now use per-core sensors instead of mixing in a proximity sensor that read low; Apple Silicon Macs where no SMC temperature is readable (such as some M1 models on macOS 27) now read CPU and GPU temperatures from HID sensors (<a href="https://github.com/helson-lin/FanBar/issues/97">#97</a>)</li>
+<li><strong>Missing icons on macOS 11–13</strong> — fan, mode and onboarding icons that rely on newer SF Symbols rendered as blanks on older systems; they now fall back to symbols those systems have (<a href="https://github.com/helson-lin/FanBar/issues/94">#94</a>)</li>
+<li><strong>Packaged builds work on macOS 11</strong> — the app now bundles the Swift concurrency runtime, so it no longer crashes shortly after launch on macOS 11</li>
+<li><strong>Internal disk shown when booted from an external drive</strong> — the internal disk, mounted read-only in that case, was missing from the disk list or shown as full; it now shows its actual usage</li>
+</ul>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>Keeping the menu bar icon spinning uses a little more CPU (about 3% on a Mac mini, whose fan always runs). Turn it off in Settings → Appearance → Menu bar icon animation if you prefer a still icon</li>
+<li>After updating, FanBar re-registers its fan-control service automatically. If macOS asks, allow FanBar again in System Settings → General → Login Items &amp; Extensions</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.6.2</title>
+      <link>https://getfanbar.com/releases/0.6.2</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.6.2</guid>
+      <pubDate>Sat, 17 Oct 2026 04:19:56 GMT</pubDate>
+      <description>Opening Device Compatibility no longer crashes; Invalid fan readings no longer cause a quit</description>
+      <content:encoded><![CDATA[<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Opening Device Compatibility no longer crashes</strong> — with the Apple Silicon or Intel installers (<code>-arm64.dmg</code> / <code>-x86_64.dmg</code>), opening Settings → General → Device Compatibility quit FanBar immediately. Those builds looked for the bundled model and compatibility data in the wrong place; this is fixed. The universal installer was not affected (<a href="https://github.com/helson-lin/FanBar/issues/86">#86</a>)</li>
+<li><strong>Invalid fan readings no longer cause a quit</strong> — when the hardware reports an invalid fan speed (such as NaN or an out-of-range value), FanBar and its fan-control service now treat it as a failed read instead of quitting</li>
+</ul>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>After updating, FanBar re-registers its fan-control service automatically. If macOS asks, allow FanBar again in System Settings → General → Login Items &amp; Extensions</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.6.1</title>
+      <link>https://getfanbar.com/releases/0.6.1</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.6.1</guid>
+      <pubDate>Fri, 16 Oct 2026 08:52:33 GMT</pubDate>
+      <description>Custom cooling presets; Russian interface; Mode buttons in the English menu panel no longer truncate</description>
+      <content:encoded><![CDATA[<h2 id="new-features">New Features</h2>
+<ul>
+<li><strong>Custom cooling presets</strong> — alongside the four built-in presets you can now create up to six of your own, each with a name, icon and temperature curve. Start from any preset’s curve, then duplicate, rename, change the icon, delete, or pin it to the menu panel like a built-in preset. Deleting the preset in use switches to Balanced and keeps curve control running (<a href="https://github.com/helson-lin/FanBar/issues/80">#80</a>)</li>
+<li><strong>Russian interface</strong> — Settings → General → Interface language now offers «Русский», and System picks it when the Mac uses Russian. The menu panel, settings window, status and error messages, and the desktop widget are translated (<a href="https://github.com/helson-lin/FanBar/issues/83">#83</a>)</li>
+</ul>
+<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Mode buttons in the English menu panel no longer truncate</strong> — the Control mode buttons now size to their labels and the automatic button reads “Auto”, so labels such as “Balanced” and “Performance” show in full (<a href="https://github.com/helson-lin/FanBar/issues/83">#83</a>)</li>
+</ul>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>After updating, FanBar re-registers its fan-control service automatically. If macOS asks, allow FanBar again in System Settings → General → Login Items &amp; Extensions</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.6.0</title>
+      <link>https://getfanbar.com/releases/0.6.0</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.6.0</guid>
+      <pubDate>Fri, 16 Oct 2026 01:55:51 GMT</pubDate>
+      <description>Device compatibility check; Control test; Compatibility reports (optional); Diagnostic logs</description>
+      <content:encoded><![CDATA[<h2 id="new-features">New Features</h2>
+<ul>
+<li><strong>Device compatibility check</strong> — a new Device Compatibility section in Settings opens a resizable window that groups this Mac’s sensor readings and fan-control capabilities, and keeps “no data”, “control request accepted” and “confirmed working by hand” apart. Mac models are shown by name, and Macs without a built-in battery show battery temperature as not applicable instead of not detected (<a href="https://github.com/helson-lin/FanBar/issues/71">#71</a>, <a href="https://github.com/helson-lin/FanBar/issues/73">#73</a>)</li>
+<li><strong>Control test</strong> — test fixed speed and smart cooling in one step: fans are briefly sped up, the mode is read back, and macOS automatic control is restored, also when you close the window or cancel. The test only starts from automatic control, and results are kept on this Mac per version (<a href="https://github.com/helson-lin/FanBar/issues/71">#71</a>, <a href="https://github.com/helson-lin/FanBar/issues/74">#74</a>)</li>
+<li><strong>Compatibility reports (optional)</strong> — you can submit the results anonymously to report.getfanbar.com to show which models work. Reports contain only the model, chip, versions and capability states, never serial numbers, user names or temperature history. You choose whether a report is public; it expires after 90 days and can be withdrawn at any time with the credential kept on this Mac (<a href="https://github.com/helson-lin/FanBar/issues/71">#71</a>, <a href="https://github.com/helson-lin/FanBar/issues/74">#74</a>)</li>
+<li><strong>Diagnostic logs</strong> — when temperatures are missing or approval or control fails, you can upload diagnostics that only maintainers can see, or just export them locally. They include sensor formats and raw values, launch, approval, connection and control events from the last 24 hours, sanitized crash summaries, and the build of the running fan-control service, so an old service still running after an update is identified. If FanBar won’t open, run the included <code>FanBar-Diagnostics.command</code> to export them (<a href="https://github.com/helson-lin/FanBar/issues/71">#71</a>, <a href="https://github.com/helson-lin/FanBar/issues/75">#75</a>)</li>
+</ul>
+<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Macs that report no fans</strong> — the menu no longer shows an empty fan panel and mode buttons, and explains that control is not verified (<a href="https://github.com/helson-lin/FanBar/issues/71">#71</a>)</li>
+<li><strong>Occasional cooling timeouts no longer overwrite test results</strong> — a single smart-cooling write timing out, for example around sleep, no longer turns a passed control test into a failure (<a href="https://github.com/helson-lin/FanBar/issues/73">#73</a>)</li>
+<li><strong>Cancelling the control test</strong> — now reported as cancelled rather than as a failure (<a href="https://github.com/helson-lin/FanBar/issues/74">#74</a>)</li>
+</ul>
+<h2 id="notes">Notes</h2>
+<ul>
+<li>After updating, FanBar re-registers its fan-control service automatically. If macOS asks, allow FanBar again in System Settings → General → Login Items &amp; Extensions</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.5.1</title>
+      <link>https://getfanbar.com/releases/0.5.1</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.5.1</guid>
+      <pubDate>Fri, 09 Oct 2026 09:57:20 GMT</pubDate>
+      <description>High CPU with the stacked readout; Lower memory use</description>
+      <content:encoded><![CDATA[<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>High CPU with the stacked readout</strong> — with the stacked temperature/fan-speed menu bar mode, FanBar redrew its status item nonstop and used 40–60% CPU even with every animation turned off. That mode now idles at about 2% CPU (<a href="https://github.com/helson-lin/FanBar/issues/64">#64</a>)</li>
+</ul>
+<h2 id="improvements">Improvements</h2>
+<ul>
+<li><strong>Lower memory use</strong> — the menu panel is now built on first open and released a minute after it closes, the Settings window is released when closed, and the in-app copy of a custom app icon is sized for where it is drawn. Idle memory after launch drops from about 61 MB to about 27 MB (<a href="https://github.com/helson-lin/FanBar/issues/64">#64</a>)</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.5.0</title>
+      <link>https://getfanbar.com/releases/0.5.0</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.5.0</guid>
+      <pubDate>Fri, 09 Oct 2026 08:11:24 GMT</pubDate>
+      <description>Selectable menu bar icons; Stacked temperature and fan speed; Traditional Chinese and Japanese; Alternative app icons</description>
+      <content:encoded><![CDATA[<h2 id="features">Features</h2>
+<ul>
+<li><strong>Selectable menu bar icons</strong> — six drawn fan glyphs (Swirl, Ringed, Bold, Propeller, Guard, Outline), chosen in Settings → Appearance; Swirl is the default. Glyphs are optically aligned so they read the same size and weight, and manual control shows a solid hub rather than relying on tint alone (<a href="https://github.com/helson-lin/FanBar/issues/58">#58</a>)</li>
+<li><strong>Stacked temperature and fan speed</strong> — a new menu bar mode stacks the two readings, halving the status item’s width (<a href="https://github.com/helson-lin/FanBar/issues/57">#57</a>, <a href="https://github.com/helson-lin/FanBar/issues/58">#58</a>)</li>
+<li><strong>Traditional Chinese and Japanese</strong> — new interface languages, including the widget; the System language option picks Traditional Chinese for Hant/TW/HK/MO and Japanese for ja (<a href="https://github.com/helson-lin/FanBar/issues/58">#58</a>)</li>
+<li><strong>Alternative app icons</strong> — an icon picker in Settings with Materials and Styles groups (<a href="https://github.com/helson-lin/FanBar/issues/56">#56</a>)</li>
+<li><strong>Reorganized Settings</strong> — the Menu Bar pane is now Appearance; the alert temperature uses an inline stepper; version, manual check and auto-check share one row; Launch at Login moves into Settings; menu presets use system checkboxes, with better keyboard and VoiceOver access (<a href="https://github.com/helson-lin/FanBar/issues/56">#56</a>)</li>
+<li><strong>Menu bar preview and choice styling</strong> — the Menu Bar card in Appearance shows the mock menu bar preview again, following the chosen icon and the stacked mode; display modes now highlight the current choice instead of dividing every option (<a href="https://github.com/helson-lin/FanBar/issues/62">#62</a>)</li>
+</ul>
+<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Menu bar icon distortion</strong> — fixed the fan icon’s proportions; rotation no longer clips on non-Retina displays (<a href="https://github.com/helson-lin/FanBar/issues/51">#51</a>, <a href="https://github.com/helson-lin/FanBar/issues/55">#55</a>)</li>
+<li><strong>Background item icon</strong> — fixed FanBar’s small icon rendering incorrectly in the Allow in the Background list, e.g. on a Mac mini 2014 (<a href="https://github.com/helson-lin/FanBar/issues/50">#50</a>, <a href="https://github.com/helson-lin/FanBar/issues/54">#54</a>)</li>
+</ul>
+<h2 id="thanks">Thanks</h2>
+<p>Thanks to TRAVIS (bilibili) and Taolela (Xiaohongshu) for reporting issues, and to <a href="https://github.com/MrChenSH">@MrChenSH</a> for suggesting the stacked layout.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.4.16</title>
+      <link>https://getfanbar.com/releases/0.4.16</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.4.16</guid>
+      <pubDate>Mon, 05 Oct 2026 03:33:14 GMT</pubDate>
+      <description>Curve anchors can be dragged past their neighbors</description>
+      <content:encoded><![CDATA[<h2 id="features">Features</h2>
+<ul>
+<li><strong>Curve anchors can be dragged past their neighbors</strong> — dragging an anchor on the curve is no longer blocked by adjacent anchors; the curve re-sorts by temperature, the anchor stays selected and keeps its speed, and landing on an occupied temperature shifts it by one degree (<a href="https://github.com/helson-lin/FanBar/issues/47">#47</a>)</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.4.15</title>
+      <link>https://getfanbar.com/releases/0.4.15</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.4.15</guid>
+      <pubDate>Mon, 05 Oct 2026 02:55:00 GMT</pubDate>
+      <description>Older Intel Macs (e.g. Mac mini 2014) now work; Manual fan mode survives sleep/wake, and GPU temperature reads again; Hardened the privileged helper</description>
+      <content:encoded><![CDATA[<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Older Intel Macs (e.g. Mac mini 2014) now work</strong> — Macs without an <code>F0Md</code>/<code>F0md</code> mode key no longer fail with <code>SMC operation F0Md failed (65668)</code>; manual mode uses the <code>FS! </code> bitmask instead, and a clear message is shown when neither exists (<a href="https://github.com/helson-lin/FanBar/issues/40">#40</a>)</li>
+<li><strong>Manual fan mode survives sleep/wake, and GPU temperature reads again</strong> — the auto-restore timer pauses during sleep, the current mode is re-applied after an XPC timeout, and “Never” no longer reverts after 30 minutes (<a href="https://github.com/helson-lin/FanBar/issues/41">#41</a>)</li>
+</ul>
+<h2 id="security">Security</h2>
+<ul>
+<li><strong>Hardened the privileged helper</strong> — XPC callers are verified by audit token instead of PID, and non-finite or negative RPM values are rejected (<a href="https://github.com/helson-lin/FanBar/issues/42">#42</a>)</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.4.14</title>
+      <link>https://getfanbar.com/releases/0.4.14</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.4.14</guid>
+      <pubDate>Sun, 27 Sep 2026 07:17:43 GMT</pubDate>
+      <description>Stopped fans no longer look like they're spinning</description>
+      <content:encoded><![CDATA[<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Stopped fans no longer look like they’re spinning</strong> — at 0 RPM the panel’s fan graphic stays still and its airflow streaks are hidden; the desktop widget no longer shows airflow either (<a href="https://github.com/helson-lin/FanBar/issues/34">#34</a>)</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.4.13</title>
+      <link>https://getfanbar.com/releases/0.4.13</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.4.13</guid>
+      <pubDate>Sun, 27 Sep 2026 06:44:00 GMT</pubDate>
+      <description>Default automatic-restore duration; Panel animation can be turned off; Smoother control mode switching; Fixed RPM selection</description>
+      <content:encoded><![CDATA[<h2 id="new">New</h2>
+<ul>
+<li><strong>Default automatic-restore duration</strong> — Settings → General → Fan Control adds “Restore automatic control” (15 minutes, 30 minutes, 1 hour or never), used each time you switch to a manual mode. Changes in the menu apply to that session only and reset once control returns to macOS (<a href="https://github.com/helson-lin/FanBar/issues/32">#32</a>)</li>
+<li><strong>Panel animation can be turned off</strong> — Settings → Menu Bar → Animation adds a “Panel animation” switch. When off, the fans stop spinning and mode changes don’t animate while readings still update live, further lowering CPU use (<a href="https://github.com/helson-lin/FanBar/issues/32">#32</a>)</li>
+</ul>
+<h2 id="improvements">Improvements</h2>
+<ul>
+<li><strong>Smoother control mode switching</strong> — the selection glides between modes, the strip no longer jolts when leaving Automatic, and all mode labels share one size (<a href="https://github.com/helson-lin/FanBar/issues/32">#32</a>)</li>
+<li><strong>Fixed RPM selection</strong> — the current RPM in the Fixed picker, including a custom value, is highlighted with the same background as the control strip (<a href="https://github.com/helson-lin/FanBar/issues/32">#32</a>)</li>
+<li><strong>Reorganized settings</strong> — General is regrouped into Fan Control, Notifications and FanBar; a healthy control service collapses to a single status row; rows, controls and headers share one rhythm; “Check for Updates…” moves beside the version (<a href="https://github.com/helson-lin/FanBar/issues/32">#32</a>)</li>
+<li>“Hardware safety limits” is renamed “Restore automatic control” to better describe what it does</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.4.12</title>
+      <link>https://getfanbar.com/releases/0.4.12</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.4.12</guid>
+      <pubDate>Sat, 26 Sep 2026 13:38:19 GMT</pubDate>
+      <description>Custom fixed RPM; Adjustable high-temperature alert; Much lower background resource use; A tighter menu bar item</description>
+      <content:encoded><![CDATA[<h2 id="new">New</h2>
+<ul>
+<li><strong>Custom fixed RPM</strong> — the Fixed menu adds “Custom RPM…”, with a slider for quick changes and a field for an exact value (e.g. 3000 RPM). The allowed range comes from this Mac’s fan hardware limits and is always shown; values outside it can’t be applied. The last custom value is listed in the menu, and presets outside the hardware range are hidden (<a href="https://github.com/helson-lin/FanBar/issues/26">#26</a>)</li>
+<li><strong>Adjustable high-temperature alert</strong> — Settings → Notifications adds “Alert temperature”, configurable from 60–105°C (default 90°C). The row is collapsed by default and expands to a slider when clicked; the value applies when you release the slider, so dragging never triggers a stray notification</li>
+</ul>
+<h2 id="improvements">Improvements</h2>
+<ul>
+<li><strong>Much lower background resource use</strong> — fan animations fully pause while the menu bar panel is closed; the spinning menu bar icon only redraws when its image actually changes; system service status is no longer queried every 2 seconds; and the SSD temperature sensors are reused after the first discovery. In local measurement, CPU use with the panel closed dropped from about 20% to about 3% (with the spinning icon turned off) (<a href="https://github.com/helson-lin/FanBar/issues/26">#26</a>)</li>
+<li><strong>A tighter menu bar item</strong> — when showing temperature or fan speed, the item’s width is sized to the actual reading, removing the extra space around the icon and text</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.4.11</title>
+      <link>https://getfanbar.com/releases/0.4.11</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.4.11</guid>
+      <pubDate>Tue, 22 Sep 2026 03:42:51 GMT</pubDate>
+      <description>Redesigned the settings window; The first-run onboarding now surfaces the control-service permission; Fix the temperature chart's x-axis losing the hour across an hour boundary; Fix a straight line being drawn across sampling gaps</description>
+      <content:encoded><![CDATA[<h2 id="new">New</h2>
+<ul>
+<li><strong>Redesigned the settings window</strong> — a native preference-style toolbar (Cooling / Menu Bar / General), card-based preset selection, and one curve card with its temperature source, a live marker showing the target RPM, and a control-point inspector; advanced options (cooling buffer, max step) stay collapsed by default</li>
+<li><strong>The first-run onboarding now surfaces the control-service permission</strong> — when it hasn’t been granted yet, a notice explains that adjusting cooling needs one-time permission and offers to enable it directly, instead of silently no-oping the first time a new user tries</li>
+</ul>
+<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Fix the temperature chart’s x-axis losing the hour across an hour boundary</strong> — the time format changed from <code>mm:ss</code> to <code>HH:mm:ss</code></li>
+<li><strong>Fix a straight line being drawn across sampling gaps</strong> left by sleep, a locked screen, or a relaunch, and the smoothing window blending readings from either side of the gap; the trace now breaks at the gap and smoothing stops at the boundary too. The last ten minutes of history are also persisted locally, so the chart no longer starts blank after relaunching</li>
+<li><strong>Fix the settings window’s content visibly shifting when switching tabs</strong> — its scroller is now forced to overlay style, so the content lane’s width no longer depends on whether that tab happens to need scrolling</li>
+</ul>
+<h2 id="thanks">Thanks</h2>
+<ul>
+<li>Thanks to <strong>Hisn0w</strong> for contributing the temperature chart fix</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.4.10</title>
+      <link>https://getfanbar.com/releases/0.4.10</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.4.10</guid>
+      <pubDate>Thu, 17 Sep 2026 14:51:34 GMT</pubDate>
+      <description>Fix a blank &quot;FanBar Settings&quot; window appearing after clicking the menu bar icon</description>
+      <content:encoded><![CDATA[<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Fix a blank “FanBar Settings” window appearing after clicking the menu bar icon</strong> — On recent macOS releases, an empty placeholder settings window opened at launch and came forward with the menu panel. The placeholder no longer appears, and reopening FanBar while it runs or pressing ⌘, opens the real settings window</li>
+</ul>
+<h2 id="thanks">Thanks</h2>
+<ul>
+<li>Thanks to <strong>倾藏</strong> for reporting the issue</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.4.9</title>
+      <link>https://getfanbar.com/releases/0.4.9</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.4.9</guid>
+      <pubDate>Thu, 17 Sep 2026 13:27:51 GMT</pubDate>
+      <description>Fix &quot;control service did not respond&quot; and fans spinning up then dropping back to 0; Diagnostic logging for the control service; Fix the control-mode error overlapping its buttons; Fix crowded settings tab icons on macOS 26 and later</description>
+      <content:encoded><![CDATA[<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Fix “control service did not respond” and fans spinning up then dropping back to 0</strong> — Some Macs must unlock manual fan mode first, which can take longer than 3 seconds. FanBar gave up after 3 seconds and dropped the connection, which made the control service restore automatic fan control, so every switch failed. The wait now scales with the fan count and the longest unlock time, and quitting FanBar no longer waits on a slow reply</li>
+<li><strong>Diagnostic logging for the control service</strong> — Each fan operation’s duration, underlying error, and unlock time are logged; view them with <code>log show --predicate 'subsystem == "local.fanbar.helper"' --last 30m</code></li>
+<li><strong>Fix the control-mode error overlapping its buttons</strong> — The buttons are hidden while the error is shown, long messages no longer overflow into neighboring sections, and the full text is available on hover and to VoiceOver</li>
+<li><strong>Fix crowded settings tab icons on macOS 26 and later</strong> — Tab segments now use the system’s native sizing</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.4.8</title>
+      <link>https://getfanbar.com/releases/0.4.8</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.4.8</guid>
+      <pubDate>Thu, 17 Sep 2026 11:42:05 GMT</pubDate>
+      <description>Fix intermittent crash on launch-at-login</description>
+      <content:encoded><![CDATA[<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Fix intermittent crash on launch-at-login</strong> — When launchd started FanBar as a login item before the WindowServer connection was ready, creating an <code>NSStatusItem</code> too early inside SwiftUI’s <code>App.init()</code> hit an AppKit/SkyLight connection assertion and aborted, showing up as “crashes on launch, icon never appears”; status-item creation now waits for <code>applicationDidFinishLaunching</code>, which AppKit only calls once its own startup sequence has finished</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.4.7</title>
+      <link>https://getfanbar.com/releases/0.4.7</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.4.7</guid>
+      <pubDate>Mon, 14 Sep 2026 04:26:00 GMT</pubDate>
+      <description>FanBar 0.4.7</description>
+      <content:encoded><![CDATA[<h2 id="whats-changed">What’s Changed</h2>
+<ul>
+<li>[codex] Add macOS desktop widget by <a href="https://github.com/helson-lin">@helson-lin</a> in <a href="https://github.com/helson-lin/FanBar/pull/9">https://github.com/helson-lin/FanBar/pull/9</a></li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.4.4</title>
+      <link>https://getfanbar.com/releases/0.4.4</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.4.4</guid>
+      <pubDate>Fri, 21 Aug 2026 09:39:13 GMT</pubDate>
+      <description>Fix helper crash on exit</description>
+      <content:encoded><![CDATA[<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Fix helper crash on exit</strong> — The helper trapped with SIGTRAP on SIGTERM/SIGINT (shutdown, sleep, reinstall, app quit) due to a Swift concurrency isolation assertion, skipping fan restore; the signal handler closures are now explicitly <code>@Sendable</code> so the shutdown path reliably restores automatic control</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.4.3</title>
+      <link>https://getfanbar.com/releases/0.4.3</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.4.3</guid>
+      <pubDate>Wed, 19 Aug 2026 10:13:35 GMT</pubDate>
+      <description>Editable smart cooling curves; One curve per panel preset; Advanced controls stay folded; Settings window fits the display</description>
+      <content:encoded><![CDATA[<h2 id="new">New</h2>
+<ul>
+<li><strong>Editable smart cooling curves</strong> — Settings opens on Cooling first: a smooth curve, draggable anchors, CPU / GPU / SSD sources, and 0% idle below the first knee</li>
+<li><strong>One curve per panel preset</strong> — Silent, Balanced, Performance, and Extreme each store their own curve; choosing a preset in the menu applies that slot</li>
+</ul>
+<h2 id="improvements">Improvements</h2>
+<ul>
+<li><strong>Advanced controls stay folded</strong> — Anchor table, hysteresis, and per-step limits live under Advanced so the curve stays primary</li>
+<li><strong>Settings window fits the display</strong> — Height is clamped to the visible screen and tall content scrolls instead of clipping</li>
+<li><strong>Architecture-specific installers</strong> — Apple Silicon, Intel, and Universal DMGs; Sparkle updates still use the Universal image</li>
+</ul>
+<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Failed hardware apply does not switch presets</strong> — The visible preset and curve commit only after the helper write succeeds</li>
+<li><strong>Falling hysteresis holds across equal samples</strong> — Repeated cooler readings keep RPM; output never rises while cooling</li>
+<li><strong>Stale helper invalidations are ignored</strong> — An older connection cannot clear its replacement</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.4.2</title>
+      <link>https://getfanbar.com/releases/0.4.2</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.4.2</guid>
+      <pubDate>Sat, 08 Aug 2026 06:38:55 GMT</pubDate>
+      <description>Menu bar icon follows fan activity; Settings tab navigation; Grouped settings cards; Larger menu bar icon</description>
+      <content:encoded><![CDATA[<h2 id="new">New</h2>
+<ul>
+<li><strong>Menu bar icon follows fan activity</strong> — spins with live RPM, coasts to a stop when idle, blinks on switch failure</li>
+<li><strong>Settings tab navigation</strong> — three native toolbar tabs (Menu Bar / Cooling / General), window height adapts per tab</li>
+<li><strong>Grouped settings cards</strong> — native macOS grouped style with card containers, section footers for explanatory text</li>
+</ul>
+<h2 id="improvements">Improvements</h2>
+<ul>
+<li><strong>Larger menu bar icon</strong> — 12pt → 14pt; rotation and static frames share the same render path, no size jump on transition</li>
+</ul>
+<h2 id="fixes">Fixes</h2>
+<ul>
+<li><strong>Animation ended too early</strong> — now continuously driven by live fan RPM instead of XPC call duration</li>
+</ul>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.4.1</title>
+      <link>https://getfanbar.com/releases/0.4.1</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.4.1</guid>
+      <pubDate>Wed, 05 Aug 2026 02:59:53 GMT</pubDate>
+      <description>FanBar 0.4.1</description>
+      <content:encoded><![CDATA[<p>FanBar 0.4.1</p>
+<ul>
+<li>macOS 11 and later</li>
+<li>Apple Silicon arm64 and Intel x86_64 builds</li>
+<li>Improved English control-mode layout</li>
+<li>Fan speed, temperature charts, smart cooling, and automatic restore</li>
+</ul>
+<p>Download the build that matches your Mac, and use the accompanying SHA-256 file to verify the download.</p>
+]]></content:encoded>
+    </item>
+    <item>
+      <title>FanBar 0.4.0</title>
+      <link>https://getfanbar.com/releases/0.4.0</link>
+      <guid isPermaLink="true">https://getfanbar.com/releases/0.4.0</guid>
+      <pubDate>Tue, 04 Aug 2026 15:47:33 GMT</pubDate>
+      <description>FanBar 0.4.0</description>
+      <content:encoded><![CDATA[<p>Signed Developer ID builds for Apple Silicon and Intel Macs. Includes English and Simplified Chinese UI, refreshed screenshots, and settings language refresh fixes.</p>
+]]></content:encoded>
+    </item>
+  </channel>
+</rss>

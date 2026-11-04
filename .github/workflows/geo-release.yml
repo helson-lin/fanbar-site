@@ -1,0 +1,71 @@
+name: Build and deploy GEO release pages
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to build, for example v0.8.2 (defaults to the latest release)"
+        required: false
+        type: string
+  repository_dispatch:
+    types: [fanbar-release]
+  schedule:
+    # Safety net: pick up a release even if the FanBar workflow dispatch was missed.
+    - cron: "17 3 * * *"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: fanbar-geo-production
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+    steps:
+      - name: Check out the site baseline and generator
+        uses: actions/checkout@v4
+
+      - name: Resolve release tag
+        id: release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          INPUT_TAG: ${{ inputs.tag || github.event.client_payload.tag }}
+        run: |
+          tag="${INPUT_TAG:-}"
+          if [ -z "$tag" ]; then
+            tag="$(gh release view --repo helson-lin/FanBar --json tagName --jq .tagName)"
+          fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+
+      - name: Check out FanBar release notes at the tag
+        uses: actions/checkout@v4
+        with:
+          repository: helson-lin/FanBar
+          ref: ${{ steps.release.outputs.tag }}
+          path: fanbar
+          fetch-depth: 1
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Build release pages and GEO files
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+        run: node scripts/build-release.mjs --src "$GITHUB_WORKSPACE/fanbar/docs/releases" --tag "$RELEASE_TAG"
+
+      - name: Validate generated output
+        run: node scripts/validate-build.mjs --version "${RELEASE_TAG#v}"
+
+      - name: Deploy to Cloudflare Workers
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy

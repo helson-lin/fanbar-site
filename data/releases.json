@@ -1,0 +1,753 @@
+[
+  {
+    "version": "0.8.2",
+    "highlights": {
+      "en": [
+        "Hands the fans back to macOS even when the SMC refuses to switch them to automatic",
+        "Fans no longer stop when the hand-back fails"
+      ],
+      "zh": [
+        "SMC 拒绝切回自动时也能把风扇交还 macOS",
+        "交还失败时风扇不再停转"
+      ]
+    },
+    "publishedAt": "2026-11-03T23:07:15Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.8.2-arm64.dmg",
+        "size": 15756913
+      },
+      "x86_64": {
+        "name": "FanBar-v0.8.2-x86_64.dmg",
+        "size": 15837488
+      },
+      "universal": {
+        "name": "FanBar-0.8.2.dmg",
+        "size": 18966695
+      }
+    }
+  },
+  {
+    "version": "0.8.1",
+    "highlights": {
+      "en": [
+        "More reliable background retries when the SMC refuses fan writes",
+        "Says why it gave up retrying",
+        "A one-off read error no longer breaks fan control until a restart"
+      ],
+      "zh": [
+        "SMC 拒绝写入时的后台重试更可靠",
+        "放弃重试时说明真正的原因",
+        "偶发读取错误不再让风扇控制一直失效"
+      ]
+    },
+    "publishedAt": "2026-11-03T14:57:36Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.8.1-arm64.dmg",
+        "size": 15752023
+      },
+      "x86_64": {
+        "name": "FanBar-v0.8.1-x86_64.dmg",
+        "size": 15831958
+      },
+      "universal": {
+        "name": "FanBar-0.8.1.dmg",
+        "size": 18956298
+      }
+    }
+  },
+  {
+    "version": "0.8.0",
+    "publishedAt": "2026-11-02T09:02:03Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.8.0-arm64.dmg",
+        "size": 15747136
+      },
+      "x86_64": {
+        "name": "FanBar-v0.8.0-x86_64.dmg",
+        "size": 15826829
+      },
+      "universal": {
+        "name": "FanBar-0.8.0.dmg",
+        "size": 18943070
+      }
+    },
+    "highlights": {
+      "en": [
+        "Choose the panel's monitoring modules",
+        "See which apps use the most CPU",
+        "SSD temperature on the startup disk",
+        "Fan curves can follow the battery temperature"
+      ],
+      "zh": [
+        "自定义面板的监控模块",
+        "查看占用 CPU 最多的应用",
+        "启动盘显示 SSD 温度",
+        "温控曲线可以跟随电池温度"
+      ]
+    }
+  },
+  {
+    "version": "0.7.3",
+    "publishedAt": "2026-10-31T12:43:55Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.7.3-arm64.dmg",
+        "size": 15592668
+      },
+      "x86_64": {
+        "name": "FanBar-v0.7.3-x86_64.dmg",
+        "size": 15674885
+      },
+      "universal": {
+        "name": "FanBar-0.7.3.dmg",
+        "size": 18644721
+      }
+    },
+    "highlights": {
+      "en": [
+        "Recovers on its own when the SMC refuses fan writes for a while",
+        "A quieter support prompt"
+      ],
+      "zh": [
+        "SMC 暂时拒绝风扇写入时自动恢复",
+        "支持入口更低调"
+      ]
+    }
+  },
+  {
+    "version": "0.7.2",
+    "publishedAt": "2026-10-27T07:01:12Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.7.2-arm64.dmg",
+        "size": 15578737
+      },
+      "x86_64": {
+        "name": "FanBar-v0.7.2-x86_64.dmg",
+        "size": 15647037
+      },
+      "universal": {
+        "name": "FanBar-0.7.2.dmg",
+        "size": 18616181
+      }
+    },
+    "highlights": {
+      "en": [
+        "Whole-system power beside the Temperature heading",
+        "Much lower memory use while the menu bar icon spins"
+      ],
+      "zh": [
+        "温度标题旁显示整机功耗",
+        "菜单栏图标旋转时内存占用大幅下降"
+      ]
+    }
+  },
+  {
+    "version": "0.7.1",
+    "publishedAt": "2026-10-24T09:49:34Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.7.1-arm64.dmg",
+        "size": 15544276
+      },
+      "x86_64": {
+        "name": "FanBar-v0.7.1-x86_64.dmg",
+        "size": 15615179
+      },
+      "universal": {
+        "name": "FanBar-0.7.1.dmg",
+        "size": 18569361
+      }
+    },
+    "highlights": {
+      "en": [
+        "The panel explains when and why FanBar hands the fans back to macOS",
+        "Failed switches say where things stand and what to do",
+        "Compatibility reports say why a control check failed",
+        "Fans go back to macOS before sleep, and FanBar stops when the SMC keeps refusing writes"
+      ],
+      "zh": [
+        "面板说明 FanBar 何时、为何把风扇交还 macOS",
+        "切换失败时说清楚现状和下一步",
+        "兼容性报告附带失败原因",
+        "睡眠前先交还风扇，SMC 持续拒绝写入时停止重试"
+      ]
+    }
+  },
+  {
+    "version": "0.7.0",
+    "publishedAt": "2026-10-21T07:21:58Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.7.0-arm64.dmg",
+        "size": 15322852
+      },
+      "x86_64": {
+        "name": "FanBar-v0.7.0-x86_64.dmg",
+        "size": 15391557
+      },
+      "universal": {
+        "name": "FanBar-0.7.0.dmg",
+        "size": 18122516
+      }
+    },
+    "highlights": {
+      "en": [
+        "`fanbar` command-line tool",
+        "Install the command-line tool from Settings",
+        "Raycast Script Commands",
+        "Command Line & Automation follows language changes"
+      ],
+      "zh": [
+        "`fanbar` 命令行工具",
+        "在设置中一键安装命令行工具",
+        "Raycast 脚本命令",
+        "切换语言后，命令行与自动化区块同步更新"
+      ]
+    }
+  },
+  {
+    "version": "0.6.3",
+    "publishedAt": "2026-10-19T14:41:53Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.6.3-arm64.dmg",
+        "size": 14854832
+      },
+      "x86_64": {
+        "name": "FanBar-v0.6.3-x86_64.dmg",
+        "size": 14915072
+      },
+      "universal": {
+        "name": "FanBar-0.6.3.dmg",
+        "size": 17198909
+      }
+    },
+    "highlights": {
+      "en": [
+        "Redesigned menu panel",
+        "CSV log of temperatures and fan speeds",
+        "High-temperature alert sound",
+        "Menu bar icon spins with the fans"
+      ],
+      "zh": [
+        "重新设计的菜单面板",
+        "温度与风扇转速 CSV 日志",
+        "高温提醒提示音",
+        "菜单栏图标跟随风扇转动"
+      ]
+    }
+  },
+  {
+    "version": "0.6.2",
+    "publishedAt": "2026-10-17T04:19:56Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.6.2-arm64.dmg",
+        "size": 5565148
+      },
+      "x86_64": {
+        "name": "FanBar-v0.6.2-x86_64.dmg",
+        "size": 5656497
+      },
+      "universal": {
+        "name": "FanBar-0.6.2.dmg",
+        "size": 7956265
+      }
+    },
+    "highlights": {
+      "en": [
+        "Opening Device Compatibility no longer crashes",
+        "Invalid fan readings no longer cause a quit",
+        "After updating, FanBar re-registers its fan-control service automatically. If macOS asks, allow FanBar again in System Settings → General → Login Items & Extensions"
+      ],
+      "zh": [
+        "打开「本机能力与兼容性」不再闪退",
+        "异常的风扇读数不再导致退出",
+        "升级后 FanBar 会自动重新注册风扇控制服务。如果系统提示，请在「系统设置 → 通用 → 登录项与扩展」中重新允许 FanBar"
+      ]
+    }
+  },
+  {
+    "version": "0.6.1",
+    "publishedAt": "2026-10-16T08:52:33Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.6.1-arm64.dmg",
+        "size": 5561340
+      },
+      "x86_64": {
+        "name": "FanBar-v0.6.1-x86_64.dmg",
+        "size": 5656172
+      },
+      "universal": {
+        "name": "FanBar-0.6.1.dmg",
+        "size": 7952837
+      }
+    },
+    "highlights": {
+      "en": [
+        "Custom cooling presets",
+        "Russian interface",
+        "Mode buttons in the English menu panel no longer truncate"
+      ],
+      "zh": [
+        "自定义散热预设",
+        "俄语界面",
+        "英文菜单面板的模式按钮不再被截断"
+      ]
+    }
+  },
+  {
+    "version": "0.6.0",
+    "publishedAt": "2026-10-16T01:55:51Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.6.0-arm64.dmg",
+        "size": 5389017
+      },
+      "x86_64": {
+        "name": "FanBar-v0.6.0-x86_64.dmg",
+        "size": 5478760
+      },
+      "universal": {
+        "name": "FanBar-0.6.0.dmg",
+        "size": 7574652
+      }
+    },
+    "highlights": {
+      "en": [
+        "Device compatibility check",
+        "Control test",
+        "Compatibility reports (optional)",
+        "Diagnostic logs"
+      ],
+      "zh": [
+        "设备兼容性检测",
+        "控制能力测试",
+        "兼容性报告（可选）",
+        "诊断日志"
+      ]
+    }
+  },
+  {
+    "version": "0.5.1",
+    "publishedAt": "2026-10-09T09:57:20Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.5.1-arm64.dmg",
+        "size": 4511239
+      },
+      "x86_64": {
+        "name": "FanBar-v0.5.1-x86_64.dmg",
+        "size": 4564577
+      },
+      "universal": {
+        "name": "FanBar-0.5.1.dmg",
+        "size": 5770935
+      }
+    },
+    "highlights": {
+      "en": [
+        "High CPU with the stacked readout",
+        "Lower memory use"
+      ],
+      "zh": [
+        "上下排列显示时 CPU 占用过高",
+        "更低的内存占用"
+      ]
+    }
+  },
+  {
+    "version": "0.5.0",
+    "publishedAt": "2026-10-09T08:11:24Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.5.0-arm64.dmg",
+        "size": 4504259
+      },
+      "x86_64": {
+        "name": "FanBar-v0.5.0-x86_64.dmg",
+        "size": 4559835
+      },
+      "universal": {
+        "name": "FanBar-0.5.0.dmg",
+        "size": 5760718
+      }
+    },
+    "highlights": {
+      "en": [
+        "Selectable menu bar icons",
+        "Stacked temperature and fan speed",
+        "Traditional Chinese and Japanese",
+        "Alternative app icons"
+      ],
+      "zh": [
+        "可选菜单栏图标",
+        "温度与转速叠放显示",
+        "繁體中文與日本語",
+        "可选 App 图标"
+      ]
+    }
+  },
+  {
+    "version": "0.4.16",
+    "publishedAt": "2026-10-05T03:33:14Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.4.16-arm64.dmg",
+        "size": 3585151
+      },
+      "x86_64": {
+        "name": "FanBar-v0.4.16-x86_64.dmg",
+        "size": 3634046
+      },
+      "universal": {
+        "name": "FanBar-0.4.16.dmg",
+        "size": 4745578
+      }
+    },
+    "highlights": {
+      "en": [
+        "Curve anchors can be dragged past their neighbors"
+      ],
+      "zh": [
+        "温控曲线锚点可拖过相邻锚点"
+      ]
+    }
+  },
+  {
+    "version": "0.4.15",
+    "publishedAt": "2026-10-05T02:55:00Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.4.15-arm64.dmg",
+        "size": 3583150
+      },
+      "x86_64": {
+        "name": "FanBar-v0.4.15-x86_64.dmg",
+        "size": 3630394
+      },
+      "universal": {
+        "name": "FanBar-0.4.15.dmg",
+        "size": 4739157
+      }
+    },
+    "highlights": {
+      "en": [
+        "Older Intel Macs (e.g. Mac mini 2014) now work",
+        "Manual fan mode survives sleep/wake, and GPU temperature reads again",
+        "Hardened the privileged helper"
+      ],
+      "zh": [
+        "兼容旧款 Intel Mac（如 Mac mini 2014）",
+        "睡眠唤醒后保持手动风扇模式，恢复 GPU 温度读取",
+        "加固特权辅助程序"
+      ]
+    }
+  },
+  {
+    "version": "0.4.14",
+    "publishedAt": "2026-09-27T07:17:43Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.4.14-arm64.dmg",
+        "size": 3574746
+      },
+      "x86_64": {
+        "name": "FanBar-v0.4.14-x86_64.dmg",
+        "size": 3619360
+      },
+      "universal": {
+        "name": "FanBar-0.4.14.dmg",
+        "size": 4725753
+      }
+    },
+    "highlights": {
+      "en": [
+        "Stopped fans no longer look like they're spinning"
+      ],
+      "zh": [
+        "停转的风扇不再显示转动"
+      ]
+    }
+  },
+  {
+    "version": "0.4.13",
+    "publishedAt": "2026-09-27T06:44:00Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.4.13-arm64.dmg",
+        "size": 3574383
+      },
+      "x86_64": {
+        "name": "FanBar-v0.4.13-x86_64.dmg",
+        "size": 3618766
+      },
+      "universal": {
+        "name": "FanBar-0.4.13.dmg",
+        "size": 4725054
+      }
+    },
+    "highlights": {
+      "en": [
+        "Default automatic-restore duration",
+        "Panel animation can be turned off",
+        "Smoother control mode switching",
+        "Fixed RPM selection"
+      ],
+      "zh": [
+        "自动恢复默认时长",
+        "可关闭主界面动画",
+        "控制模式切换更顺滑",
+        "固定转速选中态"
+      ]
+    }
+  },
+  {
+    "version": "0.4.12",
+    "publishedAt": "2026-09-26T13:38:19Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.4.12-arm64.dmg",
+        "size": 3530375
+      },
+      "x86_64": {
+        "name": "FanBar-v0.4.12-x86_64.dmg",
+        "size": 3579676
+      },
+      "universal": {
+        "name": "FanBar-0.4.12.dmg",
+        "size": 4642527
+      }
+    },
+    "highlights": {
+      "en": [
+        "Custom fixed RPM",
+        "Adjustable high-temperature alert",
+        "Much lower background resource use",
+        "A tighter menu bar item"
+      ],
+      "zh": [
+        "自定义固定转速",
+        "可调整的高温提醒温度",
+        "大幅降低后台资源占用",
+        "菜单栏项目更紧凑"
+      ]
+    }
+  },
+  {
+    "version": "0.4.11",
+    "publishedAt": "2026-09-22T03:42:51Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.4.11-arm64.dmg",
+        "size": 3495841
+      },
+      "x86_64": {
+        "name": "FanBar-v0.4.11-x86_64.dmg",
+        "size": 3541001
+      },
+      "universal": {
+        "name": "FanBar-0.4.11.dmg",
+        "size": 4538605
+      }
+    },
+    "highlights": {
+      "en": [
+        "Redesigned the settings window",
+        "The first-run onboarding now surfaces the control-service permission",
+        "Fix the temperature chart's x-axis losing the hour across an hour boundary",
+        "**Fix a straight line being drawn across sampling gaps** left by sleep, a locked screen, or a relaunch, and the smoothing window blending readings from either side of the gap; the trace now breaks at the gap and smoothing stops at the boundary too. The last ten minutes of history are also persisted locally, so the chart no longer starts blank after relaunching"
+      ],
+      "zh": [
+        "设置窗口重新设计",
+        "首次启动引导新增控制服务授权提示",
+        "修复温度曲线横轴跨整点丢失小时",
+        "**修复锁屏、休眠或重启造成的采样空洞被连成一条直线**，且平滑窗口会把断档两侧的读数混在一起；现在断档处正确断线，平滑也不会跨越断档。同时把最近十分钟的温度历史写入本地，重新打开 App 后曲线不再从空白开始"
+      ]
+    }
+  },
+  {
+    "version": "0.4.10",
+    "publishedAt": "2026-09-17T14:51:34Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.4.10-arm64.dmg",
+        "size": 4145843
+      },
+      "x86_64": {
+        "name": "FanBar-v0.4.10-x86_64.dmg",
+        "size": 4189863
+      },
+      "universal": {
+        "name": "FanBar-0.4.10.dmg",
+        "size": 5118899
+      }
+    },
+    "highlights": {
+      "en": [
+        "Fix a blank \"FanBar Settings\" window appearing after clicking the menu bar icon",
+        "Thanks to **倾藏** for reporting the issue"
+      ],
+      "zh": [
+        "修复启动后点击菜单栏图标会弹出空白的“FanBar 设置”窗口",
+        "感谢 **倾藏** 反馈问题"
+      ]
+    }
+  },
+  {
+    "version": "0.4.9",
+    "publishedAt": "2026-09-17T13:27:51Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.4.9-arm64.dmg",
+        "size": 4138218
+      },
+      "x86_64": {
+        "name": "FanBar-v0.4.9-x86_64.dmg",
+        "size": 4185051
+      },
+      "universal": {
+        "name": "FanBar-0.4.9.dmg",
+        "size": 5115916
+      }
+    },
+    "highlights": {
+      "en": [
+        "Fix \"control service did not respond\" and fans spinning up then dropping back to 0",
+        "Diagnostic logging for the control service",
+        "Fix the control-mode error overlapping its buttons",
+        "Fix crowded settings tab icons on macOS 26 and later"
+      ],
+      "zh": [
+        "修复开启温控或固定转速时提示“控制服务未响应”、风扇冲高后又归零",
+        "控制服务新增诊断日志",
+        "修复控制模式错误提示与按钮文字重叠",
+        "修复 macOS 26 及更新版本上设置窗口顶部标签图标拥挤"
+      ]
+    }
+  },
+  {
+    "version": "0.4.8",
+    "publishedAt": "2026-09-17T11:42:05Z",
+    "downloads": {
+      "arm64": {
+        "name": "FanBar-v0.4.8-arm64.dmg",
+        "size": 4129970
+      },
+      "x86_64": {
+        "name": "FanBar-v0.4.8-x86_64.dmg",
+        "size": 4166093
+      },
+      "universal": {
+        "name": "FanBar-0.4.8.dmg",
+        "size": 5087247
+      }
+    },
+    "highlights": {
+      "en": [
+        "Fix intermittent crash on launch-at-login"
+      ],
+      "zh": [
+        "修复开机登录启动时菜单栏图标偶发崩溃"
+      ]
+    }
+  },
+  {
+    "version": "0.4.7",
+    "publishedAt": "2026-09-14T04:26:00Z",
+    "downloads": {
+      "universal": {
+        "name": "FanBar-0.4.7.dmg",
+        "size": 5062305
+      }
+    },
+    "highlights": {
+      "en": [],
+      "zh": []
+    }
+  },
+  {
+    "version": "0.4.4",
+    "publishedAt": "2026-08-21T09:39:13Z",
+    "downloads": {
+      "universal": {
+        "name": "FanBar-0.4.4.dmg",
+        "size": 4728640
+      }
+    },
+    "highlights": {
+      "en": [
+        "Fix helper crash on exit"
+      ],
+      "zh": [
+        "修复 Helper 退出时崩溃"
+      ]
+    }
+  },
+  {
+    "version": "0.4.3",
+    "publishedAt": "2026-08-19T10:13:35Z",
+    "downloads": {
+      "universal": {
+        "name": "FanBar-0.4.3.dmg",
+        "size": 4728984
+      }
+    },
+    "highlights": {
+      "en": [
+        "Editable smart cooling curves",
+        "One curve per panel preset",
+        "Advanced controls stay folded",
+        "Settings window fits the display"
+      ],
+      "zh": [
+        "可编辑智能温控曲线",
+        "曲线与面板预设一一对应",
+        "高级项默认折叠",
+        "设置窗口适配屏幕"
+      ]
+    }
+  },
+  {
+    "version": "0.4.2",
+    "publishedAt": "2026-08-08T06:38:55Z",
+    "downloads": {},
+    "highlights": {
+      "en": [
+        "Menu bar icon follows fan activity",
+        "Settings tab navigation",
+        "Grouped settings cards",
+        "Larger menu bar icon"
+      ],
+      "zh": [
+        "菜单栏图标跟随风扇运转动画",
+        "设置页 Tab 导航",
+        "设置页分组卡片",
+        "菜单栏图标放大"
+      ]
+    }
+  },
+  {
+    "version": "0.4.1",
+    "publishedAt": "2026-08-05T02:59:53Z",
+    "downloads": {},
+    "highlights": {
+      "en": [],
+      "zh": []
+    }
+  },
+  {
+    "version": "0.4.0",
+    "publishedAt": "2026-08-04T15:47:33Z",
+    "downloads": {},
+    "highlights": {
+      "en": [],
+      "zh": []
+    }
+  }
+]

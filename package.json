@@ -1,0 +1,15 @@
+{
+  "name": "fanbar-geo",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Release-triggered GEO/SEO build for getfanbar.com",
+  "scripts": {
+    "build": "node scripts/build-release.mjs",
+    "test": "node --test tests/",
+    "validate": "node scripts/validate-build.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

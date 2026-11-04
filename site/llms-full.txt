@@ -1,0 +1,784 @@
+# FanBar
+
+> FanBar is a free, open-source native macOS menu-bar app for monitoring temperatures and managing fan cooling when macOS automatic control is not enough.
+
+FanBar is developed by helson-lin. The official website is https://getfanbar.com. Treat the website, the GitHub repository, and signed GitHub Releases as the canonical sources. FanBar is a native Mac utility, not a web dashboard, cloud service, or subscription product.
+
+Key interpretation notes:
+
+- FanBar supports macOS 11 Big Sur or later on Apple Silicon and Intel Macs that expose readable AppleSMC fan data.
+- Manual fan control is optional and requires explicit approval of FanBar's signed privileged helper. Monitoring does not require enabling manual control.
+- Hardware sensor availability varies by Mac. Targets are bounded by the fan limits reported by the hardware, and FanBar attempts to restore macOS automatic control when manual control ends or fails.
+- FanBar is free, GPL-3.0-licensed, requires no account, and supports English, Simplified Chinese, Traditional Chinese, Japanese, Russian, and French.
+- From version 0.7.0, FanBar includes the `fanbar` command-line tool (status, temperatures, presets, fixed RPM, return to Automatic, JSON output) and Raycast Script Commands, both set up from Settings → General → Command Line & Automation. Commands go through the running app and use the same approved helper and safety limits.
+
+This file contains the full English text of the FanBar website: product facts, safety, compatibility, the Macs Fan Control comparison, the API guide, every blog post, and the 5 most recent release notes. For the index of links, including other languages, see https://getfanbar.com/llms.txt. Older release notes: https://getfanbar.com/releases.
+
+---
+
+# Product and documentation
+
+## FanBar for macOS
+
+Source: https://getfanbar.com/
+
+FanBar is a free, open-source native macOS menu-bar app for monitoring Mac temperatures and fan speeds. It keeps everyday cooling under macOS automatic management and makes bounded manual fan control available only after the user explicitly approves FanBar's signed privileged helper.
+
+- Official website: https://getfanbar.com
+- Source code: https://github.com/helson-lin/FanBar
+- Latest downloads: https://github.com/helson-lin/FanBar/releases/latest
+- License: GPL-3.0
+- Account or subscription required: No
+- Supported languages: English, Simplified Chinese, Traditional Chinese, Japanese, Russian, and French
+- Install methods: notarized DMG or the official Homebrew tap
+- Compatibility evidence: https://getfanbar.com/compatibility
+
+### What FanBar does
+
+- Reads CPU and GPU temperatures, plus SSD and battery temperatures when those sensors are exposed by the Mac.
+- Reads current fan RPM and the hardware-reported minimum and maximum for each fan.
+- Shows the app icon, CPU temperature, average fan RPM, or a combination in the menu bar, with six icon styles that spin with the fans.
+- Shows each fan's RPM and speed band on a 0-to-max meter, a CPU, GPU, memory, and disk load grid, and a rolling ten-minute temperature chart.
+- Provides Automatic, fixed target RPM, Silent, Balanced, Performance, and Extreme cooling modes.
+- Gives each preset an editable temperature-to-RPM curve that can use CPU, GPU, or SSD temperature as its source.
+- Can notify the user when CPU or GPU temperature reaches a threshold between 60°C and 105°C (90°C by default), with an optional alert sound. A sustained high-temperature episode alerts once and rearms after the Mac cools down; while hot, the panel offers a one-click switch to maximum cooling.
+- Can log temperatures, fan speeds, and the control mode to CSV files every 2–60 seconds.
+- Includes the `fanbar` command-line tool (FanBar 0.7.0 and later) to read status and temperatures, switch presets, hold a fixed RPM, or return to Automatic from Terminal or scripts, with JSON output; Settings can also set up Raycast Script Commands. Reference: https://github.com/helson-lin/FanBar/blob/main/docs/cli.md
+- Includes a desktop widget on macOS 14 or later. WidgetKit controls its refresh timing, so it is not intended for second-by-second telemetry.
+
+### Compatibility
+
+FanBar requires macOS 11 Big Sur or later. It supports Apple Silicon and Intel Macs that expose readable fan data through AppleSMC. Sensor and fan availability varies by hardware, so FanBar cannot guarantee support for every Mac model or every temperature source.
+
+The desktop widget requires macOS 14 or later. The interface can follow the system language or be set to English, Simplified Chinese, Traditional Chinese, Japanese, Russian, or French without restarting the app.
+
+The source-linked compatibility matrix at https://getfanbar.com/compatibility separates maintainer verification from incomplete community reports. An unlisted Mac is unverified, not necessarily unsupported.
+
+### Permissions and safety boundary
+
+Monitoring does not require manual fan control. FanBar requests approval for its signed privileged helper only when the user chooses to control the fans.
+
+The helper does not expose arbitrary AppleSMC writes. It can read fan state, apply a bounded target or preset, and restore automatic control. FanBar clamps requested targets to the fan limits reported by the hardware and attempts to return control to macOS when a timed preset expires, the app quits, the connection is lost, or the helper fails.
+
+AppleSMC is an undocumented hardware interface. Lower fan speeds can increase temperature; sustained high fan speeds can increase noise, power use, and mechanical wear. Automatic control is the recommended default for normal use.
+
+### Installation and use
+
+1. Download the appropriate notarized DMG from https://github.com/helson-lin/FanBar/releases/latest.
+2. Open FanBar to read the current temperatures and fan speeds from the menu bar.
+3. The first time you switch to a manual mode, approve the one-time macOS authorization prompt for the signed helper.
+4. Choose a preset or fixed RPM, or select **Automatic** at any time to return control to macOS.
+
+Fixed RPM and panel presets can be set to restore macOS control after 15 minutes, 30 minutes, or one hour.
+
+Alternatively, install the signed universal app through the official Homebrew tap:
+
+```sh
+brew tap helson-lin/fanbar https://github.com/helson-lin/FanBar.git
+brew install --cask helson-lin/fanbar/fanbar
+```
+
+Already installed the DMG? Quit FanBar and move the existing /Applications/FanBar.app to the Trash before installing with Homebrew.
+
+### Frequently asked questions
+
+#### What is FanBar?
+
+FanBar is a native macOS menu-bar utility that shows temperature and fan telemetry and offers reversible, bounded fan control when the default macOS cooling curve is not enough.
+
+#### Is FanBar free?
+
+Yes. FanBar is free, open source, and licensed under GPL-3.0. It requires no account or subscription and contains no advertising.
+
+#### Does FanBar need root access?
+
+Only manual fan control needs elevated access, and only after the user approves the signed helper. Temperature and fan monitoring do not require enabling manual control.
+
+#### Does FanBar work on every Mac?
+
+No universal hardware guarantee is possible. FanBar supports macOS 11 and later on Apple Silicon and Intel Macs that expose readable AppleSMC fan data. Available sensors and fans depend on the Mac model.
+
+#### Where should FanBar be downloaded?
+
+Use the latest notarized GitHub Release at https://github.com/helson-lin/FanBar/releases/latest, also linked from the official landing page.
+
+#### Can FanBar be controlled from Terminal, scripts, or Raycast?
+
+Yes, from FanBar 0.7.0. Install the `fanbar` tool from Settings → General → Command Line & Automation, then run commands such as `fanbar status`, `fanbar preset set performance`, `fanbar mode fixed 3000`, or `fanbar mode auto`. Add `--json` for machine-readable output and `--hold` to keep a mode until it is changed. The same section sets up Raycast Script Commands. Switching modes needs the approved control service.
+
+#### What happens if manual control fails or FanBar exits?
+
+FanBar attempts to restore macOS automatic fan control when a timed preset expires, the app quits, the helper connection is lost, or the helper reports a failure.
+
+### Canonical references
+
+- Product page: https://getfanbar.com/
+- Simplified Chinese product page: https://getfanbar.com/zh
+- Traditional Chinese product page: https://getfanbar.com/zh-tw
+- Japanese product page: https://getfanbar.com/ja
+- Russian product page: https://getfanbar.com/ru
+- French product page: https://getfanbar.com/fr
+- Repository: https://github.com/helson-lin/FanBar
+- English documentation: https://github.com/helson-lin/FanBar/blob/main/README.md
+- Chinese documentation: https://github.com/helson-lin/FanBar/blob/main/README.zh-CN.md
+
+---
+
+## Is FanBar Safe? What the Mac Fan Control Helper Can and Can't Do
+
+Source: https://getfanbar.com/is-fanbar-safe
+
+Canonical page: https://getfanbar.com/is-fanbar-safe · Checked against the source on 2026-10-15 · Written by the FanBar maintainers.
+
+**Short answer: yes.** FanBar only reads sensors until you turn on manual control. When you do, a small open-source helper sets fan targets inside each fan's hardware limits and nothing else. Every release is signed with a Developer ID and notarized by Apple.
+
+### Will FanBar damage my fans or overheat my Mac?
+
+- **Speeds stay inside the hardware range.** The helper reads each fan's reported minimum and maximum and clamps every target to that range. The one deliberate exception: a curve's coolest segment can request 0 RPM idle, the same state Apple Silicon Macs use on their own when cool.
+- **macOS thermal protection is untouched.** FanBar only writes fan mode and fan target values. macOS performance throttling and the hardware's critical-temperature shutdown keep working whatever the fans are set to.
+- **Bad input is rejected at the root boundary.** Negative or non-finite RPM values and curve fractions outside 0–100% are refused, even from a tampered client.
+- **Optional high-temperature alerts** at 90 °C for CPU or GPU.
+
+FanBar hands control back to macOS when you choose Automatic or a timed preset expires (15 min, 30 min, 1 hour); when you quit FanBar or the last app connection to the helper closes; when the helper shuts down; and when a write to one of several fans fails (the whole Mac is rolled back).
+
+Running fans at full speed for long periods mostly costs noise and some extra wear. For everyday use, Automatic or a temperature curve is the better choice.
+
+### What the root helper can and cannot do
+
+`FanBar.app → signed XPC → FanBarHelper (root) → AppleSMC fan keys`
+
+Changing fan speed on macOS requires root access to AppleSMC; reading temperatures does not. The helper is installed only when you enable manual control and approve it in macOS.
+
+The helper can:
+
+- Read fan count, current speed, and each fan's minimum and maximum
+- Set a target RPM, a preset, or a curve fraction, all clamped to the fan's range
+- Restore macOS automatic fan control
+
+The helper cannot:
+
+- Write arbitrary SMC keys (its interface has no general-purpose write)
+- Run commands, read files, or reach the network (it has no code for any of them)
+- Take orders from other apps (it only accepts clients signed by the same Apple Developer team as FanBar)
+- Keep manual control after FanBar disconnects
+
+### Verify it yourself
+
+1. Confirm Apple notarization: `spctl -a -vv /Applications/FanBar.app` should print `accepted` and `source=Notarized Developer ID`, origin `Developer ID Application: JiangLin He (64S5F787T9)`.
+2. Read the code that runs as root:
+   - https://github.com/helson-lin/FanBar/blob/main/Sources/FanBarHelper/FanBarHelperService.swift
+   - https://github.com/helson-lin/FanBar/blob/main/Sources/FanBarHelper/SMCFanDriver.swift
+   - https://github.com/helson-lin/FanBar/blob/main/Sources/FanBarShared/FanCoolingTarget.swift
+3. Network: the app has no account, ads, or analytics. A daily Sparkle update check against GitHub Releases (updates must pass Apple notarization and FanBar's EdDSA signature), plus compatibility reports only if you review and confirm one.
+
+### How to turn it off or remove it
+
+- **Back to macOS control:** choose Automatic in the menu-bar popover.
+- **Disable the helper (macOS 13+):** System Settings → General → Login Items & Extensions → turn FanBar off under “Allow in the Background”.
+- **Uninstall (Homebrew):** quit FanBar, then `brew uninstall --cask --zap helson-lin/fanbar/fanbar`. This also unloads the helper.
+
+### FAQ
+
+**Is FanBar safe to use?** Yes. By default FanBar only reads temperatures and fan speeds while macOS manages cooling. Manual control requires explicit approval of a signed helper that can only set fan targets inside each fan's hardware range. FanBar is GPL-3.0 open source and every release is notarized by Apple.
+
+**Can FanBar damage my Mac's fans?** Targets are clamped to each fan's reported minimum and maximum, so FanBar cannot push a fan beyond its rated range. The only exception is an intentional 0 RPM idle on the coolest part of a curve, matching what Apple Silicon Macs do themselves.
+
+**Can a wrong fan setting overheat my Mac?** FanBar does not change macOS thermal management; macOS still throttles and the hardware still shuts down at critical temperatures. Optional alerts fire at 90 °C.
+
+**Why does FanBar need administrator approval?** macOS only allows root processes to change fan speeds through AppleSMC. Approval is requested only when you enable manual control; monitoring works without it.
+
+**Does FanBar collect my data?** The app has no account, analytics, or advertising. Only a daily update check and, if you choose, a reviewed compatibility report without serial numbers or unique identifiers.
+
+**Is FanBar a virus or malware?** No. It is Developer ID-signed, notarized by Apple, and its full source, including the privileged helper, is public on GitHub.
+
+- Download: https://github.com/helson-lin/FanBar/releases/latest
+- Source: https://github.com/helson-lin/FanBar
+
+---
+
+## FanBar Mac compatibility and test evidence
+
+Source: https://getfanbar.com/compatibility
+
+Last updated: October 24, 2026  
+Canonical page: https://getfanbar.com/compatibility
+
+FanBar supports macOS 11 and later on Apple Silicon and Intel Macs that expose readable fan data through AppleSMC. Hardware sensors and fan behavior vary by model. This document separates public observations from maintainer verification.
+
+### Evidence labels
+
+- **Maintainer-verified:** the full checklist was run with an exact Mac model, macOS version, FanBar build, result, and date.
+- **Community report:** a GitHub issue or a private report to the maintainers records some behavior, but not the full checklist.
+- **Retest needed:** an older report or known issue needs to be checked again on the current release.
+- **Unlisted:** no sufficiently detailed public evidence is available. This does not mean unsupported.
+
+### Maintainer-verified devices
+
+None published yet. FanBar will not call a Mac model verified until a standardized result is recorded.
+
+### Community-reported evidence
+
+| Mac | System | What the source shows | Evidence limits | Date and source |
+| --- | --- | --- | --- | --- |
+| MacBook Pro 16-inch, M3 Pro (Mac15,7) | macOS 15.8 (24H3); FanBar 0.7.0 | The reporter said every FanBar feature worked as expected on this Mac. | Community report. Sent privately, so there is no public link to check; per-feature results were not recorded. | October 24, 2026 · Private report |
+| MacBook Pro 16-inch, M3 Pro (Mac15,7) | macOS 26.7.1 (25G241); FanBar 0.7.0 | Readings kept working, but after waking from clamshell sleep every SMC write was refused (Automatic restore, fixed RPM, and curve control all failed). | Retest needed. Restarting FanBar and the helper did not help; only a Mac restart did. The issue is open. | October 23, 2026 · [Issue #114](https://github.com/helson-lin/FanBar/issues/114) |
+| Mac mini, M6 | macOS 27; FanBar version not recorded | The reporter observed fan speed rising after switching from Automatic to Performance, Extreme, and Fixed modes. | Community report. The issue discusses a timed return to Automatic; it is not a full sensor-by-sensor test. | October 2, 2026 · [Issue #43](https://github.com/helson-lin/FanBar/issues/43) |
+| MacBook Pro 16-inch, M2 Max | macOS 27; FanBar 0.5.0 | The issue confirms the app launches and runs long enough for CPU and memory use to be observed. | Community report. Manual RPM and curve control were not recorded; the performance report remains open. | October 9, 2026 · [Issue #63](https://github.com/helson-lin/FanBar/issues/63) |
+| Apple Silicon Mac, identifier Mac15,8 | macOS 26.5; FanBar 0.4.3 | The report exercised the privileged helper and manual-control restore path. | Retest needed. This older version reported a shutdown restore crash. The issue is closed, but the current release needs a standardized retest. | August 20, 2026 · [Issue #6](https://github.com/helson-lin/FanBar/issues/6) |
+| Mac mini (2014), Intel | macOS and FanBar version not recorded | The report confirms the app and its background/menu-bar integration were running on the device. | Community report. Temperature reading, RPM, fixed control, and curve control were not recorded. | October 7, 2026 · [Issue #50](https://github.com/helson-lin/FanBar/issues/50) |
+
+### Standard verification checklist
+
+1. App launches and remains stable.
+2. CPU and GPU temperatures are readable.
+3. SSD and battery temperatures are readable when the hardware exposes them.
+4. Current, minimum, and maximum RPM are shown for every fan.
+5. Fixed RPM changes fan output and stays inside the reported hardware range.
+6. A temperature-based curve changes fan output as expected.
+7. Automatic control is restored on quit, disconnect, timeout, and helper failure.
+8. Sleep, wake, restart, and login-item behavior are stable.
+
+Report a Mac at https://github.com/helson-lin/FanBar/issues/new/choose with the exact model, chip, macOS version, FanBar version, observed sensors, fan behavior, and test date.
+
+### FAQ
+
+#### Does FanBar work on Apple Silicon?
+
+Yes, on Apple Silicon Macs that expose readable fan data through AppleSMC. Hardware sensors and fan behavior vary by model, so check the evidence table for the exact Mac you use. A model not listed is unverified, not necessarily unsupported.
+
+#### Is FanBar free and open source?
+
+Yes. FanBar is free under GPL-3.0, requires no account or subscription, and publishes the complete source code, including its privileged helper.
+
+#### Why does fan control need administrator permission?
+
+Reading temperatures does not need manual fan control. Changing fan targets talks to AppleSMC through a signed privileged helper, so macOS asks for approval before that helper can run with the required access.
+
+#### What happens when FanBar quits?
+
+FanBar attempts to restore macOS automatic fan control when the app quits, its helper connection is lost, a timed preset ends, or the helper reports a failure. Requested targets are also clamped to each fan's reported hardware range.
+
+---
+
+## FanBar vs Macs Fan Control
+
+Source: https://getfanbar.com/compare/macs-fan-control
+
+> Last updated: October 11, 2026. This comparison is maintained by the FanBar project. Claims about Macs Fan Control are linked to CrystalIDEA's official pages.
+
+Canonical page: https://getfanbar.com/compare/macs-fan-control
+
+### Short answer
+
+Choose **Macs Fan Control** if you want the longest track record, a broader list of individual temperature sensors, or Windows support through Boot Camp on an Intel Mac.
+
+Choose **FanBar** if you want a free and fully open-source app that keeps monitoring and controls inside a native macOS menu-bar popover, includes a desktop widget, and has no paid tier.
+
+Both are legitimate tools. Manual fan control is not risk-free: avoid forcing minimum RPM under sustained load, and prefer macOS Automatic or a sensible temperature-based curve for daily use.
+
+### Comparison
+
+| Criteria | FanBar | Macs Fan Control |
+| --- | --- | --- |
+| Price | Free; every feature is included under GPL-3.0. | Free core app. Pro is a one-time paid upgrade for saved custom presets and priority support. The Windows build is a 14-day trial. |
+| Source code | Public, including the privileged helper. | Distributed as a compiled application; its official site does not publish an application source repository. |
+| Interface | Menu-bar popover built with native SwiftUI; no separate main window. | Configurable menu-bar display plus a separate main window for detailed fan and sensor tables. |
+| Platforms | macOS 11+ on Apple Silicon and Intel Macs with readable AppleSMC fan data. | Current macOS build supports macOS 10.13+; Windows is available for Intel Macs running Boot Camp. |
+| Fan control | Automatic, fixed RPM, and Silent, Balanced, Performance, and Extreme editable temperature-to-RPM presets. | Auto, constant RPM, or sensor-based control. Saving multiple named custom presets is a Pro feature. |
+| Sensor detail | CPU, GPU, SSD, and battery temperatures, plus per-fan RPM and hardware limits. | A broader per-sensor list, including supported third-party HDD/SSD readings through S.M.A.R.T. |
+| Safety fallback | Clamps targets to hardware-reported limits and attempts to restore Automatic on quit, disconnect, or service failure. | Official documentation says all fans are restored to Auto when the app quits. |
+| Desktop widget | Yes, through WidgetKit on macOS 14+. | No WidgetKit desktop widget is listed in the current feature set. |
+| Languages | English, Simplified Chinese, Traditional Chinese, Japanese, Russian, and French. | Translated into most major languages. |
+| Install | Notarized DMG through GitHub Releases, or the official Homebrew tap. | macOS DMG and Windows installer from CrystalIDEA. |
+| Track record | A newer open-source project launched in 2026. | Public release history dates back to 2013. |
+
+### FanBar Homebrew install
+
+```sh
+brew tap helson-lin/fanbar https://github.com/helson-lin/FanBar.git
+brew install --cask helson-lin/fanbar/fanbar
+```
+
+The cask installs the signed, notarized universal app into `/Applications`.
+
+### Where Macs Fan Control is stronger
+
+- More than a decade of public releases and broader hardware coverage.
+- A larger per-sensor list, including supported third-party drive temperatures through S.M.A.R.T.
+- A Windows build for Intel Macs using Boot Camp. The Windows build is currently a 14-day trial.
+- Translations for most major languages.
+
+### Where FanBar is stronger
+
+- The complete workflow stays in a native menu-bar popover.
+- Every feature is free, and the full source—including the privileged helper—is public under GPL-3.0.
+- Built with SwiftUI for current macOS, with a WidgetKit desktop widget on macOS 14+.
+- No account, advertising, subscription, paid tier, or in-app upsell.
+
+### Frequently asked questions
+
+#### What is the best free Mac fan control app?
+
+Macs Fan Control and FanBar are both capable free options. Macs Fan Control has the longer track record and broader sensor detail. FanBar is fully free and open source, keeps its complete interface in the menu bar, and has no paid tier.
+
+#### Is it safe to control Mac fans manually?
+
+Manual fan control is not risk-free. Use hardware-bounded settings, avoid forcing minimum RPM under sustained load, and prefer Automatic or temperature-based curves for daily use. Both apps return fans to automatic control when they quit; FanBar also attempts restoration after connection or helper failures.
+
+#### Can FanBar replace Macs Fan Control?
+
+For users who need temperature monitoring, fixed RPM, editable curves, presets, and automatic fallback on macOS, FanBar covers the core workflow. Macs Fan Control remains the stronger fit when you need a broader per-sensor list or Windows support through Boot Camp.
+
+#### Why is FanBar free?
+
+FanBar is an independent open-source project licensed under GPL-3.0. There is no paid tier, account, subscription, advertising, or feature-limited download.
+
+### Sources
+
+- FanBar source and Homebrew instructions: https://github.com/helson-lin/FanBar
+- FanBar releases: https://github.com/helson-lin/FanBar/releases/latest
+- Macs Fan Control overview: https://www.crystalidea.com/macs-fan-control
+- Macs Fan Control downloads and platform requirements: https://www.crystalidea.com/macs-fan-control/download
+- Macs Fan Control support: https://www.crystalidea.com/macs-fan-control/support
+- Macs Fan Control sensors: https://www.crystalidea.com/macs-fan-control/temperature-sensors
+- Macs Fan Control release history: https://www.crystalidea.com/macs-fan-control/release-notes
+
+---
+
+## FanBar Product Facts API
+
+Source: https://getfanbar.com/api
+
+> A public, read-only API exposing canonical FanBar product, compatibility, installation, and safety facts. No key or account is required.
+
+- Documentation: https://getfanbar.com/api
+- API catalog: https://getfanbar.com/.well-known/api-catalog
+- OpenAPI 3.1 description: https://getfanbar.com/openapi.json
+- Last updated: 2026-10-24
+- API version: 1.1.0
+
+### Endpoints
+
+#### Product facts
+
+`GET https://getfanbar.com/api/product.json`
+
+Returns canonical product, pricing, compatibility, installation, feature, language, and safety facts as JSON.
+
+It also includes:
+
+- `latestRelease`: version, publish time, release notes page, and GitHub release URL of the current FanBar release.
+- `downloads`: the latest notarized DMGs keyed by architecture (`universal`, `arm64`, `x86_64`), each with file name, URL, and size in bytes.
+- `localizedPages`: the product page for each language tag (`en`, `zh-Hans`, `zh-Hant`, `ja`, `ru`, `fr`).
+
+Release and download fields are generated at build time from the same release snapshot as the website's download buttons.
+
+#### Publication status
+
+`GET https://getfanbar.com/api/health.json`
+
+Returns a small JSON status document confirming that the static API is available.
+
+### Discovery
+
+`GET https://getfanbar.com/.well-known/api-catalog`
+
+Returns RFC 9727 Linkset JSON with `service-desc`, `service-doc`, and `status` relations.
+
+### Usage
+
+```sh
+curl https://getfanbar.com/api/product.json
+curl https://getfanbar.com/api/health.json
+curl https://getfanbar.com/.well-known/api-catalog
+```
+
+All endpoints are read-only, public, and served over HTTPS. They do not expose device-control operations or personal data.
+
+---
+
+# Guides
+
+## How to Check Mac Temperature on Apple Silicon (What Actually Works)
+
+Source: https://getfanbar.com/blog/how-to-check-mac-temperature-apple-silicon
+
+Published 2026-10-15, updated 2026-10-28.
+
+**Short answer:** macOS has no built-in temperature readout, and the often-quoted `sudo powermetrics --samplers smc` doesn't exist on Apple Silicon. Built-in tools only report thermal pressure. To see actual CPU, GPU, SSD, and battery temperatures, use a menu-bar utility that reads the Mac's sensors, such as the free, open-source FanBar.
+
+Search for how to check your Mac's temperature and you'll find the same command copied across years of guides: `sudo powermetrics --samplers smc`. On an Apple Silicon Mac it doesn't work. Here's what does, tested on an M2 Max MacBook Pro running macOS 27.
+
+### Why the old command fails
+
+`powermetrics` is a real Apple tool, but on Apple Silicon it has no `smc` sampler. Run `powermetrics -h` and the list of samplers includes `cpu_power`, `gpu_power`, and `thermal`, but not `smc`. That sampler only existed on Intel Macs, which is where those guides came from.
+
+### What the built-in tools can tell you
+
+macOS doesn't show temperatures in Activity Monitor or System Settings. What it does expose is **thermal pressure**: whether the system is under enough heat stress to start limiting performance.
+
+#### `powermetrics --samplers thermal`
+
+```sh
+sudo powermetrics --samplers thermal -n 1
+```
+
+This prints the current thermal pressure level, such as `Nominal`. It doesn't give degrees, but it answers the question you usually care about: is my Mac hot enough to slow down?
+
+#### `pmset -g therm`
+
+```sh
+pmset -g therm
+```
+
+No administrator password needed. On a Mac that hasn't hit thermal limits, it reports that no thermal warning level has been recorded. If you see a performance warning here during heavy work, the Mac was throttling.
+
+### How to see actual temperatures
+
+To read degrees, you need an app that reads the Mac's sensors directly. Apple doesn't document the sensor names, and they differ between chip generations, so these apps maintain their own mappings.
+
+With [FanBar](/), which is free and open source:
+
+1. [Download the latest release](https://github.com/helson-lin/FanBar/releases/latest) and open it. It lives in the menu bar.
+2. Click the menu-bar item. The popover shows **CPU, GPU, SSD, and battery** temperatures with a history chart that spans 10 minutes to an hour, alongside each fan's speed.
+3. To keep a temperature visible at all times, choose what the menu-bar item shows in **Settings → Appearance**.
+
+Reading temperatures needs no special permission. FanBar only asks for administrator approval if you later choose to control the fans yourself, and you can [see exactly what that permission allows](/is-fanbar-safe).
+
+Other options exist: Stats is a free, open-source system monitor, and TG Pro and iStat Menus are paid apps with broader features. We compare them in [Macs Fan Control alternatives](/alternatives).
+
+### What the numbers mean
+
+Temperatures depend on the chip, the workload, and the room, so treat any single number with caution. For reference, here's one of our own readings from a 16-inch MacBook Pro with M2 Max during light use (browser, editor, chat):
+
+| Sensor | Reading |
+| --- | --- |
+| CPU | 54 °C |
+| GPU | 51 °C |
+| SSD | 32 °C |
+| Battery | 31 °C |
+
+Some general guidance:
+
+- **CPU and GPU** rise quickly under load and fall quickly after. High readings during an export, a game, or a compile are expected. Apple Silicon is designed to run hot under sustained work, and macOS slows the chip down before heat becomes harmful.
+- **The trend matters more than the peak.** A chip that's hot while idle points to a background process; check Activity Monitor. Our guide to [why a MacBook fan gets so loud](/blog/why-is-my-macbook-fan-so-loud) walks through the usual causes.
+- **Battery** temperature moves slowly and is worth watching while charging. Sustained heat is hard on battery health over time.
+- **SSD** temperature mostly tracks long file transfers and the temperature inside the case.
+
+If thermal pressure regularly leaves `Nominal` during work you care about, raising the fan speed before the heavy task can help the Mac hold its performance. That's the kind of control FanBar adds on top of monitoring, within each fan's hardware limits.
+
+### FAQ
+
+**Can I check Mac CPU temperature without installing anything?**
+Not in degrees. Built-in tools (`powermetrics --samplers thermal` and `pmset -g therm`) report thermal pressure and thermal warnings, not temperatures.
+
+**Does Activity Monitor show temperature?**
+No. It shows CPU, GPU, memory, energy, disk, and network usage, which helps you find the cause of heat, but not the temperature itself.
+
+**Why do different apps show different temperatures?**
+Each app chooses which of the many sensors to show, and some average several of them. Compare trends within one app rather than exact numbers across apps.
+
+**Do I need to grant permissions to read temperatures?**
+Not with FanBar. Monitoring works without approval; the privileged helper is only needed for fan control.
+
+---
+
+## Mac Fan Running Constantly at Idle? How to Tell Normal From a Problem
+
+Source: https://getfanbar.com/blog/mac-fan-running-constantly-at-idle
+
+Published 2026-10-15, updated 2026-10-28.
+
+**Short answer:** It depends on the Mac. Intel Macs and many desktop Macs keep their fans turning slowly all the time, so that part is normal. It's a problem when the speed at idle is well above the fan's own minimum — then look for background work, a warm environment, or a fan app that left a raised speed in place.
+
+"My fan never stops" can describe a perfectly healthy Mac or a real problem. The way to tell them apart is to stop listening and start measuring.
+
+### First: should your fan ever stop?
+
+Not every Mac turns its fans off.
+
+- **Apple Silicon MacBook Pro.** Fans can drop to 0 RPM when the chip is cool, so a completely silent idle is normal. Fans that never stop on these models are worth checking.
+- **Intel Macs.** The fans always run at a minimum speed. A constant low hum is expected.
+- **Desktop Macs** such as Mac mini and Mac Studio. Many keep a fan turning slowly all the time to keep air moving through a small enclosure.
+- **MacBook Air with Apple Silicon.** No fan at all.
+
+So "running constantly" on its own isn't a symptom. **Running constantly well above its minimum speed** is.
+
+### Compare the current speed with the fan's minimum
+
+Every Mac fan reports a minimum and maximum speed to macOS. On the 16-inch MacBook Pro we test on, for example, the two fans report ranges of 1,350–5,349 RPM and 1,522–5,777 RPM.
+
+The rule of thumb:
+
+- **At or near the minimum** (or 0 on a MacBook Pro that can stop): normal idle behavior. If it bothers you, it's a noise preference, not a fault.
+- **Clearly above the minimum while you're doing nothing:** something is producing heat or holding the fan up. Keep reading.
+
+macOS doesn't show fan speeds anywhere. You need a utility that reads them; [FanBar](/) shows each fan's current speed next to its range, and it's free.
+
+### If the fan is above its minimum at idle
+
+#### 1. Background work you can't see
+
+Idle doesn't always mean idle. Open **Activity Monitor**, choose the **CPU** tab, and sort by **% CPU**. Common hidden workloads:
+
+- Spotlight indexing (`mds_stores`, `mdworker`) after an update or migration
+- Photos analysis (`photoanalysisd`, `mediaanalysisd`) after importing photos
+- Time Machine (`backupd`), cloud sync clients, and antivirus scans
+- A browser tab still running video or a web app in the background
+
+These usually finish on their own. Leave the Mac awake and plugged in, and the fan should settle.
+
+#### 2. A fan app that left a speed in place
+
+This is one we see as fan-control developers. Some fan utilities apply a **raised minimum speed** that stays in effect until the app is told to stop, even after you forget it's installed. If you've ever used a fan control app:
+
+1. Open it and switch back to automatic or system control.
+2. If you no longer use it, quit and uninstall it.
+3. Restart. On Intel Macs, [resetting the SMC](https://support.apple.com/102605) also clears leftover fan settings; on Apple Silicon, Apple says the SMC resets automatically, so a restart is enough.
+
+FanBar is designed not to leave anything behind. It hands control back to macOS when you quit it, when its connection drops, or when a timed preset ends. You can see [exactly what its helper can and can't do](/is-fanbar-safe).
+
+#### 3. Heat from outside the chip
+
+- A warm room, direct sunlight, or a desk under a window
+- Vents blocked by a soft surface or by the Mac sitting flush against a wall
+- Charging while in use
+- External displays keeping the GPU busy
+
+#### 4. A sensor or hardware fault
+
+If the fan stays high after a restart, in a cool room, with nothing in Activity Monitor and no fan apps running, the Mac may be reacting to a faulty temperature reading or a failing fan. Run **Apple Diagnostics**. On Apple Silicon, shut down, press and hold the power button until startup options appear, then press Command-D. On Intel, hold D during startup. Book a repair if it reports a problem or if you hear grinding or clicking.
+
+If the fan is loud while you're actually working rather than at idle, that's a different question; see [why your MacBook fan is so loud](/blog/why-is-my-macbook-fan-so-loud).
+
+### Want it quieter at idle anyway?
+
+If your fan is at its minimum and you'd still prefer silence, that's where fan control becomes a choice rather than a fix. On a MacBook Pro that supports 0 RPM, a temperature curve in FanBar can keep the fans stopped while the chip is cool and bring them in gently as it warms. Targets always stay inside each fan's reported range, and macOS keeps its own thermal protection regardless of the setting.
+
+### FAQ
+
+**Is it bad if my Mac fan runs all the time?**
+Not if it's at its minimum speed. Fans are designed to run continuously. Constantly high speeds are worth investigating because they usually point to heat you could remove.
+
+**Why does my Mac mini fan never stop?**
+Many desktop Macs keep a fan turning slowly as normal behavior. Check that the speed is near the fan's reported minimum; if it is, nothing is wrong.
+
+**My MacBook Pro fan used to stop and now it doesn't. Why?**
+Most often a background task is keeping the chip warm, such as indexing after an update, or a previously used fan app left a raised minimum. Work through the steps above in order.
+
+---
+
+## Why Is My MacBook Fan So Loud? Causes and Fixes
+
+Source: https://getfanbar.com/blog/why-is-my-macbook-fan-so-loud
+
+Published 2026-10-15, updated 2026-10-28.
+
+**Short answer:** A loud fan means your Mac is getting rid of heat — usually from a process using a lot of CPU or GPU, a warm room, or blocked vents. Open Activity Monitor, sort by % CPU, and deal with whatever is at the top; that fixes most cases.
+
+We build a Mac fan control app, so we spend a lot of time looking at what fans do and why. The short version: **the fan is almost never the problem. It's a messenger.** macOS spins it up because something is producing heat, and the fix is finding that something.
+
+### How macOS decides how fast your fan spins
+
+Your Mac reads its temperature sensors many times a second and sets a target speed for each fan. More heat, higher target. That's all "loud" means: the system decided it needs to move more air.
+
+A few things about this are worth knowing before you troubleshoot:
+
+- **Apple Silicon MacBook Pros can stop their fans completely.** When the chip is cool, the fans sit at 0 RPM and the Mac is silent. Any noise at all means real work is happening.
+- **Intel Macs never stop their fans.** They always spin at a minimum speed, so a soft hum is normal. Loud is not.
+- **MacBook Air models with Apple Silicon have no fan.** If an M-series Air is making noise, it's coming from something else, such as speakers, coil whine, or an external drive.
+- **Fan speed follows temperature, not CPU percentage.** A short burst of work can leave the fans running for a while afterward while the heat dissipates. That lag is by design.
+
+### Why does my MacBook get so hot and loud at the same time?
+
+Heat and noise arrive together because one causes the other: the chip warms up, and macOS raises fan speed to carry that heat out. A Mac that feels hot *and* sounds loud is working as designed. It's under real load, or the air around it isn't cooling it well.
+
+These patterns point in different directions:
+
+- **Hot and loud, then it settles.** A heavy task (an export, a build, a video call, indexing after an update) produced heat, and the fans cleared it. Nothing to fix.
+- **Hot and loud for a long time with little open.** Something keeps producing heat in the background, or the vents can't do their job. Work through the steps below.
+- **Hot but quiet.** On a fanless MacBook Air, that's normal: it slows the chip instead of spinning a fan. On a MacBook Pro, a hot case with fans that barely move is unusual and worth checking with Apple Diagnostics.
+
+If you want numbers instead of guessing by touch, see [how to check your Mac's temperature on Apple Silicon](/blog/how-to-check-mac-temperature-apple-silicon).
+
+### Step 1: Find what's using the CPU or GPU
+
+This solves most cases. Open **Activity Monitor** (Applications → Utilities), select the **CPU** tab, and sort by **% CPU**. Anything sitting well above 100% for minutes at a time is producing a lot of heat.
+
+To see the GPU, choose **Window → GPU History**.
+
+The usual suspects:
+
+| Process | What it is | What to do |
+| --- | --- | --- |
+| `mds`, `mds_stores`, `mdworker` | Spotlight indexing, common right after a macOS update, a migration, or connecting a large drive | Let it finish. It can take hours on a big disk, then it stops. |
+| `photoanalysisd`, `mediaanalysisd` | Photos scanning faces, objects, and text after an import or update | Leave the Mac plugged in and awake; it runs once per batch. |
+| `backupd` | Time Machine | Normal during a backup; heavy on the first one. |
+| A browser or its helper processes | One tab running video, a web app, or a runaway script | Close tabs one by one until the CPU drops. |
+| `WindowServer` | Drawing the screen | High with many displays, high refresh rates, or heavy animation. |
+| `kernel_task` (Intel Macs) | macOS deliberately occupying the CPU to cool it down | A symptom, not the cause — it means the Mac is already too hot. Look for the heat source. |
+
+If a single app you don't need is at the top, quit it. If it's a system indexing task, the noise will stop once it finishes.
+
+### Step 2: Check the conditions around the Mac
+
+When nothing in Activity Monitor stands out, the heat is usually coming from the environment:
+
+- **Soft surfaces.** A bed, sofa, or lap blocks the vents along the sides and back edge. Use a hard, flat surface.
+- **A warm room or direct sunlight.** Fans work harder when the air they pull in is already warm.
+- **Charging while working hard.** Fast charging adds heat inside the case, on top of whatever the chip is doing.
+- **External displays.** Driving several high-resolution displays keeps the GPU busy even when you're "doing nothing."
+- **Video calls.** Camera processing, encoding, and screen sharing together are a sustained load.
+
+### Step 3: Rule out software state
+
+- **Restart.** It clears stuck processes and resets fan control state.
+- **Quit other fan control or tuning apps.** Some apps keep a raised minimum fan speed in place until they're told to stop. If you've ever used one, open it and restore automatic control, or uninstall it.
+- **Intel Macs only: reset the SMC.** Apple has [instructions for your model](https://support.apple.com/102605). On Apple Silicon there's nothing extra to do: Apple says the SMC resets automatically, so a restart is all you need.
+- **Update macOS and your apps.** Fixes for runaway processes often arrive quietly in updates.
+
+### When it's a hardware problem
+
+Software can't explain every case. Contact Apple or an authorized service provider if:
+
+- The fan is loud **while Activity Monitor shows almost no CPU use**, after a restart, in a cool room.
+- You hear **grinding, clicking, or rattling** rather than the smooth sound of moving air. That points to a worn bearing or debris.
+- An **older Intel Mac** has gradually become louder over the years. Dust buildup on the heatsink is common; cleaning it means opening the case, which is best left to a technician.
+
+You can also run **Apple Diagnostics**. On Apple Silicon, shut down, press and hold the power button until the startup options appear, then press Command-D. On Intel, hold D while the Mac starts.
+
+### Can a fan control app make it quieter?
+
+Honestly: only up to a point, and not by itself. A fan control app can't make a hot chip produce less heat. If you force the fans slower while the Mac is working hard, temperatures rise until macOS slows the chip down to protect it. You trade noise for speed.
+
+Where a tool like [FanBar](/) does help:
+
+- **Seeing the cause.** CPU, GPU, SSD, and battery temperatures next to fan speed tell you whether the noise follows a real load or a warm environment.
+- **Smoother behavior.** A temperature curve that ramps up earlier and more gently can replace the sudden jump to high speed that makes fans so noticeable.
+- **Control when you choose it.** Raise the fans before a long export so the chip keeps its speed, or return to macOS automatic control with one click.
+
+Whatever you set, FanBar keeps every target inside the speed range each fan reports, and hands control back to macOS when you quit. You can [read exactly what its helper is allowed to do](/is-fanbar-safe).
+
+### FAQ
+
+**Is a loud fan bad for my MacBook?**
+No. It's the cooling system doing its job. Constant loud noise is worth investigating because it costs battery life and usually signals a runaway process, but the fan itself is protecting the hardware.
+
+**Why is my MacBook fan loud when nothing is open?**
+Background tasks such as Spotlight indexing, Photos analysis, and Time Machine run without a window. Check Activity Monitor; if it's quiet and the fan is still loud, see the hardware section above. If the fan never drops back to a low speed, see [Mac fan running constantly at idle](/blog/mac-fan-running-constantly-at-idle).
+
+**Why did my fan get louder after a macOS update?**
+Updates trigger Spotlight re-indexing and Photos re-analysis. Leave the Mac plugged in and awake for a few hours and the noise usually goes away by itself.
+
+---
+
+# Recent releases
+
+## FanBar 0.8.0 release notes
+
+Source: https://getfanbar.com/releases/0.8.0
+
+Released 2026-11-02.
+
+### New Features
+
+- **Choose the panel's monitoring modules** — in Settings → Appearance → Menu Bar Panel, pick which modules the middle of the panel shows (CPU, Memory, GPU, Startup disk) and in what order. Drag a module in the preview or the list to move it, add or remove modules with + / −, or move them from the context menu or with ⌥⌘↑ / ⌥⌘↓. With an odd number of modules the last one spans its row; with none, the panel drops that area and gets shorter. The default is still the original four, so the panel looks the same after updating ([#134](https://github.com/helson-lin/FanBar/issues/134))
+- **See which apps use the most CPU** — click the CPU cell in the panel to list the five apps using the most CPU beneath it, with each app's helper processes counted together (a browser's web content processes, for example). Click a row to open Activity Monitor, or Control-click to show the app in Finder. Processes are only measured while the list is open; collapsing it or closing the panel stops it ([#135](https://github.com/helson-lin/FanBar/issues/135))
+- **SSD temperature on the startup disk** — the internal startup disk's row in the disk details now shows the SSD temperature, and only changes color as it nears its limits ([#134](https://github.com/helson-lin/FanBar/issues/134))
+- **Fan curves can follow the battery temperature** — Cooling → Temperature source now offers Battery on Macs that have one ([#134](https://github.com/helson-lin/FanBar/issues/134))
+
+### Improvements
+
+- **Elevated resource levels are shown by color alone** — when CPU, GPU or memory load is elevated or disk space runs low, the panel turns that resource's bars orange without adding "High" or "Space low", so a state that needs no action doesn't read like an alarm. "Very high" and "Almost full" are still spelled out, and VoiceOver announces both levels
+
+### Notes
+
+- App percentages use Activity Monitor's scale, where one full core is 100%, so a busy app can exceed 100%. System processes such as kernel_task and WindowServer need administrator access to read, so the list covers the current user's processes only.
+- A fan curve follows only its selected temperature source. With Battery or SSD selected, the fans don't speed up because the CPU gets hot.
+
+---
+
+## FanBar 0.7.3 release notes
+
+Source: https://getfanbar.com/releases/0.7.3
+
+Released 2026-10-31.
+
+### Fixes
+
+- **Recovers on its own when the SMC refuses fan writes for a while** — after sleep and wake, the SMC sometimes refuses to switch fan modes for a few minutes. In 0.7.2, after five failures in a row FanBar handed the fans to macOS, said a restart was needed, and stopped trying, so you had to switch back by hand. The fans still go back to macOS first, but FanBar now retries your mode in the background after 30 seconds, 1 minute, 2 minutes and then every 5 minutes, for up to an hour, and turns it back on once a write gets through. Failed retries show no error, and picking any mode yourself cancels them. A restart is suggested only if the SMC is still refusing after an hour ([#131](https://github.com/helson-lin/FanBar/issues/131), [#114](https://github.com/helson-lin/FanBar/issues/114))
+
+### Improvements
+
+- **A quieter support prompt** — the panel's Support button is no longer a bold filled button, so it no longer outranks actions that fix something, such as authorizing the control service. The links at the bottom of Settings → General now share one line ([#123](https://github.com/helson-lin/FanBar/issues/123))
+
+---
+
+## FanBar 0.7.2 release notes
+
+Source: https://getfanbar.com/releases/0.7.2
+
+Released 2026-10-27.
+
+### New Features
+
+- **Whole-system power beside the Temperature heading** — the panel's Temperature heading now shows how much power the Mac draws (for example *Power 38 W*), refreshed with the temperatures every 2 s. The reading comes from SMC `PSTR`; Macs without that key (some desktops and Intel models) show nothing. Implausible or stale readings are hidden rather than guessed ([#120](https://github.com/helson-lin/FanBar/issues/120), [#76](https://github.com/helson-lin/FanBar/issues/76))
+
+### Fixes
+
+- **Much lower memory use while the menu bar icon spins** — in 0.7.1, the filter that hides the still icon under the spinning one made Core Image load about 180 MB of kernel data into memory. It now uses a filter that needs no Core Image context and looks the same. On a Mac mini M4, FanBar's memory (the *Memory* column in Activity Monitor) drops from about 270 MB to about 90 MB ([#121](https://github.com/helson-lin/FanBar/issues/121), [#63](https://github.com/helson-lin/FanBar/issues/63))
+
+---
+
+## FanBar 0.7.1 release notes
+
+Source: https://getfanbar.com/releases/0.7.1
+
+Released 2026-10-24.
+
+### New Features
+
+- **The panel explains when and why FanBar hands the fans back to macOS** — when a timer ends, or no usable temperature arrives for 30 s, the panel says so under the mode strip and offers *Turn on again*. A timed session warns one minute before it ends, with *Extend*. With the panel closed these become notifications (*Keep*, *Keep on*, *Turn on again*); turn them off in Settings → Notifications → *Remind before handing back to macOS* ([#113](https://github.com/helson-lin/FanBar/issues/113))
+- **Failed switches say where things stand and what to do** — a failure now reads as what happened, who is driving the fans (red only when a manual speed is left behind), one recovery action, and the raw error behind an info button that copies it. On a Mac whose SMC has no fan mode key, the mode strip is disabled with the reason ([#113](https://github.com/helson-lin/FanBar/issues/113))
+- **Compatibility reports say why a control check failed** — a failed check now carries the failure type (unlock timeout, SMC write rejected, readback not confirmed, and so on), never error text. You can optionally attach diagnostic logs when uploading; this is off by default and visible only to administrators ([#112](https://github.com/helson-lin/FanBar/issues/112))
+
+### Fixes
+
+- **Fans go back to macOS before sleep, and FanBar stops when the SMC keeps refusing writes** — on some M3 Pro Macs, lid-closed sleep followed by dark wakes left the SMC refusing every fan write until restart ([#114](https://github.com/helson-lin/FanBar/issues/114)). The control service now hands the fans back to macOS before the Mac sleeps, does not take them again while asleep, and your mode is restored on wake. If the SMC refuses five writes in a row, FanBar stops retrying, hands back to macOS and tells you a restart is needed, instead of retrying every 11 s forever. A failed curve write no longer leaves the curve stuck at 0–5% output. If you have seen this problem, please report how this version behaves in [#114](https://github.com/helson-lin/FanBar/issues/114)
+- **Every view follows an interface language change** — fixed child views, native pickers, window titles and retained operation results staying in the previous language ([#111](https://github.com/helson-lin/FanBar/issues/111))
+- **The spinning menu bar icon uses far less CPU** — on Apple silicon the icon now turns with Core Animation. On a Mac mini M4 with two displays at 3,000 RPM, FanBar's CPU use drops from about 10% to about 1.8%. Intel Macs cap the animation at 4 frames a second ([#113](https://github.com/helson-lin/FanBar/issues/113))
+- **Diagnostic exports no longer report the control service as unavailable** — the service status survives a burst of failed writes ([#117](https://github.com/helson-lin/FanBar/issues/117))
+
+### Notes
+
+- A held manual mode (including `fanbar --hold`) no longer drives the fans while the Mac sleeps; macOS takes over and your mode is restored on wake
+- After updating, FanBar re-registers its fan-control service automatically. If macOS asks, allow FanBar again in System Settings → General → Login Items & Extensions
+
+### Thanks
+
+- Thanks to [@Estelle00](https://github.com/Estelle00) for the detailed report in [#114](https://github.com/helson-lin/FanBar/issues/114) and for [#115](https://github.com/helson-lin/FanBar/issues/115)
+
+---
+
+## FanBar 0.7.0 release notes
+
+Source: https://getfanbar.com/releases/0.7.0
+
+Released 2026-10-21.
+
+### New Features
+
+- **`fanbar` command-line tool** — read the status, switch presets, set a fixed speed or hand the fans back to macOS from Terminal or a script: `fanbar status`, `fanbar preset set performance`, `fanbar mode fixed 3000`, `fanbar mode auto`. `--hold` keeps the new mode until you change it; without it the Settings restore timer applies. `--json` prints machine-readable results. If FanBar isn't running, the command opens it in the background. Commands go through FanBar and only the current user can use them ([#107](https://github.com/helson-lin/FanBar/issues/107))
+- **Install the command-line tool from Settings** — Settings → General → Command Line & Automation → Command-line tool → Install… puts `fanbar` in `/usr/local/bin`, asking for an administrator password only when needed. The row tells you if your shell would find another `fanbar` first, or if `/usr/local/bin` isn't on your PATH ([#107](https://github.com/helson-lin/FanBar/issues/107), [#108](https://github.com/helson-lin/FanBar/issues/108))
+- **Raycast Script Commands** — switch presets, set a fixed speed, hand back to macOS, and see CPU, GPU and SSD temperatures right in Raycast's root search. In Settings → General → Command Line & Automation → Raycast, click Set Up in Raycast…, then add the script folder once in Raycast. The scripts update with FanBar, and scripts you edited are left as they are ([#107](https://github.com/helson-lin/FanBar/issues/107))
+
+### Fixes
+
+- **Command Line & Automation follows language changes** — fixed section headings, descriptions and CLI / Raycast buttons retaining the previous language. This replacement release uses build 32 so users of the earlier 0.7.0 can update automatically.
+- **Panel header and core labels no longer truncate** — the header reads "Fans normal / macOS in control / CPU 65°" and breaks before its last part when a language doesn't fit; the CPU cell's performance / efficiency core labels use the full cell width instead of showing "Performanc…", and never shrink below 11pt ([#105](https://github.com/helson-lin/FanBar/issues/105))
+- **Alert titles stay whole in manual mode** — when the restore countdown doesn't fit beside an alert, it moves to the next line instead of truncating titles such as "CPU average is running warm" ([#106](https://github.com/helson-lin/FanBar/issues/106))
+
+### Notes
+
+- `fanbar` works through the running FanBar (commands open it if needed), and switching modes needs the approved fan-control service. Full usage: [docs/cli.md](https://github.com/helson-lin/FanBar/blob/main/docs/cli.md)
+- After updating, FanBar re-registers its fan-control service automatically. If macOS asks, allow FanBar again in System Settings → General → Login Items & Extensions
