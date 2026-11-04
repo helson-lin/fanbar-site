@@ -75,7 +75,7 @@ async function main() {
 
   for (const item of api) {
     const version = String(item.tag_name || '').replace(/^v/, '');
-    if (!version || item.draft) continue;
+    if (!version || item.draft || item.prerelease) continue;
     const hasDocs = Boolean(docsFor(version));
     const hasPage = fs.existsSync(path.join(SITE_DIR, 'releases', version, 'index.html'));
     // Old releases that never had a website page (for example 0.4.5) stay out of the index.
