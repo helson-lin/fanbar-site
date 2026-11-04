@@ -161,13 +161,16 @@ export function renderReleasePage({ shell, release, lang, neighbors, isLatest })
   const canonical = `${SITE}${base}/releases/${release.version}`;
   const description = releaseDescription(release, lang);
   const title = zh ? `FanBar ${release.version} 更新说明` : `FanBar ${release.version} Release Notes`;
-  const old = '0.8.0';
+  // The shell is refreshed from the live site, so derive its version/date instead of
+  // assuming the 0.8.0 snapshot that the templates were originally cut from.
+  const shellVersion = shell.match(/\/releases\/([^"/]+)"/)?.[1] ?? '0.8.0';
+  const shellDate = shell.match(/article:published_time" content="([^"]+)"/)?.[1];
 
   let html = shell;
-  html = html.replaceAll('/zh/releases/0.8.0', `/zh/releases/${release.version}`);
-  html = html.replaceAll('/releases/0.8.0', `/releases/${release.version}`);
-  html = html.replaceAll('0.8.0', release.version);
-  html = html.replaceAll('2026-11-02T09:02:03Z', release.publishedAt);
+  html = html.replaceAll(`/zh/releases/${shellVersion}`, `/zh/releases/${release.version}`);
+  html = html.replaceAll(`/releases/${shellVersion}`, `/releases/${release.version}`);
+  html = html.replaceAll(shellVersion, release.version);
+  if (shellDate) html = html.replaceAll(shellDate, release.publishedAt);
   html = html.replaceAll('November 2, 2026', formatDateEn(release.publishedAt));
   html = html.replaceAll('2026年11月2日', formatDateZh(release.publishedAt));
 
