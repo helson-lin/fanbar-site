@@ -61,6 +61,8 @@ jobs:
         run: node scripts/build-release.mjs --src "$GITHUB_WORKSPACE/fanbar/docs/releases" --tag "$RELEASE_TAG"
 
       - name: Validate generated output
+        env:
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
         run: node scripts/validate-build.mjs --version "${RELEASE_TAG#v}"
 
       - name: Deploy to Cloudflare Workers
