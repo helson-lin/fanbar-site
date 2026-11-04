@@ -66,6 +66,36 @@ check(read('llms.txt').includes(`https://getfanbar.com/releases/${version}`), 'l
 check(read('llms-full.txt').includes(`## FanBar ${version} release notes`), 'llms-full.txt is missing the release');
 check(JSON.parse(read('api/product.json')).latestRelease?.version === version, 'product.json latestRelease is stale');
 
+// Every same-origin image/font referenced by the deployed HTML/CSS must exist in dist.
+const assetExtensions = /\.(?:png|jpe?g|webp|avif|svg|gif|ico|woff2?)$/i;
+const missingAssets = new Set();
+function checkAsset(url, fromFile) {
+  if (!url || /^data:|^https?:\/\/(?!getfanbar\.com)/i.test(url)) return;
+  const parsed = new URL(url, `https://getfanbar.com/${fromFile.replace(/(^|\/)index\.html$/, '$1')}`);
+  if (!assetExtensions.test(parsed.pathname)) return;
+  const file = path.join(DIST, decodeURIComponent(parsed.pathname));
+  if (!fs.existsSync(file)) missingAssets.add(`${parsed.pathname} (from ${fromFile})`);
+}
+function walkHtml(dir) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    const file = path.join(dir, entry.name);
+    if (entry.isDirectory()) { walkHtml(file); continue; }
+    const relative = path.relative(DIST, file);
+    if (entry.name.endsWith('.html')) {
+      const html = fs.readFileSync(file, 'utf8');
+      for (const match of html.matchAll(/(?:href|src|poster|data-src)="([^"]+)"/g)) checkAsset(match[1], relative);
+      for (const match of html.matchAll(/(?:srcset|data-srcset|imagesrcset)="([^"]+)"/g)) {
+        for (const candidate of match[1].split(',')) checkAsset(candidate.trim().split(/\s+/)[0], relative);
+      }
+    } else if (entry.name.endsWith('.css')) {
+      const css = fs.readFileSync(file, 'utf8');
+      for (const match of css.matchAll(/url\((['"]?)([^)'"]+)\1\)/g)) checkAsset(match[2], relative);
+    }
+  }
+}
+walkHtml(DIST);
+for (const missing of [...missingAssets].slice(0, 20)) failures.push(`missing asset: ${missing}`);
+
 if (failures.length) {
   console.error(`validation failed (${failures.length})`);
   for (const failure of failures) console.error(`- ${failure}`);

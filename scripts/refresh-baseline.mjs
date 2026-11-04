@@ -56,8 +56,21 @@ async function work(url) {
   fs.writeFileSync(file, result.body);
   const text = result.body.toString('utf8');
   if (result.type.includes('text/html')) {
-    for (const match of text.matchAll(/(?:href|src)="([^"]+)"/g)) add(new URL(match[1], url).href);
+    for (const match of text.matchAll(/(?:href|src|poster|data-src)="([^"]+)"/g)) add(new URL(match[1], url).href);
+    for (const match of text.matchAll(/(?:srcset|data-srcset|imagesrcset)="([^"]+)"/g)) {
+      for (const candidate of match[1].split(',')) {
+        const candidateUrl = candidate.trim().split(/\s+/)[0];
+        if (candidateUrl) add(new URL(candidateUrl, url).href);
+      }
+    }
+    for (const match of text.matchAll(/url\((['"]?)([^)'"]+)\1\)/g)) {
+      if (!match[2].startsWith('data:')) add(new URL(match[2], url).href);
+    }
     for (const match of text.matchAll(/<meta[^>]+content="(https:\/\/getfanbar\.com[^"]+)"/g)) add(match[1]);
+  } else if (/\.(css)$/.test(new URL(url).pathname)) {
+    for (const match of text.matchAll(/url\((['"]?)([^)'"]+)\1\)/g)) {
+      if (!match[2].startsWith('data:')) add(new URL(match[2], url).href);
+    }
   } else if (/\.(txt|md|xml|json)$/.test(new URL(url).pathname)) {
     for (const match of text.matchAll(/https:\/\/getfanbar\.com[^\s)"'<>,`]+/g)) add(match[0].replace(/[.,;]+$/, ''));
   }
