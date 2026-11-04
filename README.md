@@ -47,21 +47,32 @@ GITHUB_TOKEN="$(gh auth token)" \
 
 node scripts/validate-build.mjs --version 0.8.2
 node --test tests/*.test.mjs
+
+npx wrangler dev --local --config wrangler.dev.jsonc --compatibility-date 2026-07-28
+node scripts/verify-deployment.mjs http://127.0.0.1:8787
 ```
 
 `--src` points at a FanBar checkout's `docs/releases/` directory. The build fetches release
 metadata (publication time and exact asset sizes) from the GitHub API and falls back to
 `data/releases.json` if the API is unavailable.
 
-Preview locally:
+Use the production compatibility date (`2026-10-13`) for deploys; older local `workerd`
+builds reject it. `verify-deployment.mjs` checks every sitemap page plus every referenced
+same-origin image/font, which catches missing `srcset` variants.
+
+## Dev and production
+
+- Dev worker: `fanbar-site-dev` (`wrangler.dev.jsonc`), deployed by the release trigger,
+  schedule, and backfill workflows.
+- Production worker: `fanbar-site` (`wrangler.jsonc`), deployed only by the manual
+  `promote-production.yml` workflow after `confirm=production`.
+
+Promote after verifying the dev Worker:
 
 ```sh
-npx wrangler dev --local --compatibility-date 2026-07-28
-# http://127.0.0.1:8787/releases/0.8.2
+gh workflow run promote-production.yml -R helson-lin/fanbar-site \
+  -f tag=v0.8.2 -f confirm=production
 ```
-
-Use the production compatibility date (`2026-10-13`) for deploys; older local `workerd`
-builds reject it.
 
 ## GitHub Actions
 
@@ -69,11 +80,14 @@ Two workflows live in this repository:
 
 | Workflow | Trigger | Purpose |
 | --- | --- | --- |
-| `geo-release.yml` | `workflow_dispatch`, `repository_dispatch`, daily schedule | Standalone build + deploy |
-| `backfill.yml` | `workflow_dispatch` with comma-separated tags | Rebuild historical releases in order |
+| `geo-release.yml` | `workflow_dispatch`, `repository_dispatch`, daily schedule | Build + deploy to dev |
+| `backfill.yml` | `workflow_dispatch` with comma-separated tags | Rebuild historical releases to dev |
+| `promote-production.yml` | manual, with `confirm=production` | Build + deploy to production |
 
-The production trigger is a `geo` job appended to FanBar's
-`.github/workflows/macos-release.yml`. It runs only on `v*` tags after the `release` job.
+The `geo` job appended to FanBar's `.github/workflows/macos-release.yml` runs only on
+`v*` tags after the `release` job and deploys the **dev** Worker (`fanbar-site-dev`).
+Production is never deployed automatically; use `promote-production.yml` from the Actions
+tab after checking the dev URL.
 
 Required repository secrets (both repositories if both workflows run):
 
@@ -99,8 +113,9 @@ deliberate design change to the site:
 node scripts/refresh-baseline.mjs
 ```
 
-This re-crawls the public site into `site/` and regenerates `templates/release.{en,zh}.html`
-from the newest release page. Review and commit the snapshot. The generator itself only
+This re-crawls the public site into `site/`, including `src`, `srcset`, `poster`, and CSS
+`url()` assets, and regenerates `templates/release.{en,zh}.html` from the newest release
+page. Review and commit the snapshot. The generator itself only
 depends on the template shell and the release markdown format.
 
 ## Layout

@@ -26,15 +26,21 @@ tag push (v*)
   -> FanBar / macOS build and release
   -> Publish GitHub Release
   -> geo job
-  -> fanbar-site build + validate + wrangler deploy
+  -> fanbar-site build + validate + deploy fanbar-site-dev
 ```
 
 `geo` job 与发布任务在同一个 workflow 中，因为 FanBar 用 `GITHUB_TOKEN` 创建 Release，
 GitHub 不会为这种 Release 再触发 `release: published` workflow。
 
+**生产发布是独立的手动 workflow**：`promote-production.yml`，必须输入
+`confirm=production`，并且只部署 `fanbar-site`。发布触发、定时任务和 backfill 都只
+部署 `fanbar-site-dev`。
+
 ## 失败与补偿
 
-- `fanbar-site` 每天 03:17 UTC 定时构建最新版本，补偿漏触发的发布。
+- `fanbar-site` 每天 03:17 UTC 定时构建最新版本到 dev，补偿漏触发的发布。
+- 本地或 dev 先运行 `node scripts/verify-deployment.mjs <base-url>`，检查所有 sitemap
+  页面和全部图片/字体资源。
 - `backfill.yml` 支持按 tag 顺序重建历史版本。
 - 构建后 `validate-build.mjs` 校验标题、canonical、hreflang、JSON-LD、RSS/sitemap/llms
   与产品 JSON；失败则不部署。

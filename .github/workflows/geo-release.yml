@@ -1,4 +1,4 @@
-name: Build and deploy GEO release pages
+name: Build and deploy GEO release pages (dev)
 
 on:
   workflow_dispatch:
@@ -10,14 +10,14 @@ on:
   repository_dispatch:
     types: [fanbar-release]
   schedule:
-    # Safety net: pick up a release even if the FanBar workflow dispatch was missed.
+    # Safety net for the dev worker; production is promoted manually.
     - cron: "17 3 * * *"
 
 permissions:
   contents: read
 
 concurrency:
-  group: fanbar-geo-production
+  group: fanbar-geo-dev
   cancel-in-progress: false
 
 jobs:
@@ -65,10 +65,10 @@ jobs:
           RELEASE_TAG: ${{ steps.release.outputs.tag }}
         run: node scripts/validate-build.mjs --version "${RELEASE_TAG#v}"
 
-      - name: Deploy to Cloudflare Workers
+      - name: Deploy to the dev Worker
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "4.113.0"
-          command: deploy
+          command: deploy --config wrangler.dev.jsonc
