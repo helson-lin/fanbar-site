@@ -62,3 +62,15 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: "4.113.0"
           command: deploy --config wrangler.dev.jsonc
+
+      - name: Verify the dev deployment
+        env:
+          DEV_URL: https://fanbar-site-dev.helson.workers.dev
+        run: |
+          for attempt in 1 2 3 4 5 6; do
+            if node scripts/verify-deployment.mjs "$DEV_URL"; then
+              exit 0
+            fi
+            sleep 5
+          done
+          exit 1
