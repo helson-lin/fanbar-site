@@ -80,11 +80,8 @@ async function run() {
     pending += batch.length;
     await Promise.all(batch.map((url) => work(url).finally(() => { pending -= 1; })));
   }
-  fs.rmSync(OUT, { recursive: true, force: true });
-  fs.renameSync(TMP, OUT);
-
-  const versions = fs.readdirSync(path.join(OUT, 'releases'))
-    .filter((name) => /^\d+\.\d+\.\d+$/.test(name) && fs.existsSync(path.join(OUT, 'releases', name, 'index.html')))
+  const versions = fs.readdirSync(path.join(TMP, 'releases'))
+    .filter((name) => /^\d+\.\d+\.\d+$/.test(name) && fs.existsSync(path.join(TMP, 'releases', name, 'index.html')))
     .sort((a, b) => {
       const pa = a.split('.').map(Number);
       const pb = b.split('.').map(Number);
@@ -92,12 +89,15 @@ async function run() {
       return 0;
     });
   const templateVersion = versions[0];
+  if (!templateVersion) throw new Error('no release pages were downloaded; site/ was not replaced');
   for (const lang of ['en', 'zh']) {
-    const page = fs.readFileSync(path.join(OUT, lang === 'zh' ? `zh/releases/${templateVersion}/index.html` : `releases/${templateVersion}/index.html`), 'utf8');
+    const page = fs.readFileSync(path.join(TMP, lang === 'zh' ? `zh/releases/${templateVersion}/index.html` : `releases/${templateVersion}/index.html`), 'utf8');
     const start = page.indexOf('<article');
     const end = page.indexOf('</article>') + '</article>'.length;
     fs.writeFileSync(path.join(ROOT, `templates/release.${lang}.html`), `${page.slice(0, start)}{{ARTICLE}}${page.slice(end)}`);
   }
+  fs.rmSync(OUT, { recursive: true, force: true });
+  fs.renameSync(TMP, OUT);
   console.log(`refreshed ${seen.size} URL(s) into site/ and templates/`);
 }
 
